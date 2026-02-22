@@ -1,0 +1,8 @@
+﻿namespace KwikNesta.Shared.Models.Settings
+{
+    public class KNApplicationSettings
+    {
+        public JwtSettings Jwt { get; set; } = default!;
+        public ResendSettings Resend { get; set; } = default!;
+    }
+}
