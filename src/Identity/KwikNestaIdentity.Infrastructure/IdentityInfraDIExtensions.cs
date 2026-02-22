@@ -1,9 +1,12 @@
-﻿using KwikNestaIdentity.Infrastructure.Data;
+﻿using KwikNestaIdentity.Domain.Entities;
+using KwikNestaIdentity.Infrastructure.Data;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System;
 
 namespace KwikNestaIdentity.Infrastructure
 {
@@ -12,12 +15,26 @@ namespace KwikNestaIdentity.Infrastructure
         public static IServiceCollection ConfigureIdentityServiceDbContexts(this IServiceCollection services,
                                                             IConfiguration configuration)
         {
-            var connectionString = configuration.GetConnectionString("DefaultConnection") ?? 
-                throw new ArgumentNullException("DefaultConnection");
+            var connectionString = configuration.GetConnectionString("DefaultConnection") ??
+                throw new ArgumentNullException("Connection string not set.");
 
             services.AddDbContext<IdentityServiceDbContext>(options =>
-                options.UseNpgsql(connectionString,
-                    m => m.MigrationsAssembly(typeof(IdentityServiceDbContext).Assembly.FullName)));
+                options.UseNpgsql(connectionString));
+
+            services.AddIdentity<User, IdentityRole>(options =>
+            {
+                options.Password.RequireNonAlphanumeric = true;
+                options.Password.RequiredLength = 8;
+                options.Password.RequireDigit = true;
+                options.Password.RequireLowercase = true;
+                options.Password.RequireUppercase = true;
+                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(60);
+                options.Lockout.MaxFailedAccessAttempts = 3;
+                options.SignIn.RequireConfirmedEmail = true;
+                options.User.RequireUniqueEmail = true;
+            })
+            .AddEntityFrameworkStores<IdentityServiceDbContext>()
+            .AddDefaultTokenProviders();
 
             return services;
         }
