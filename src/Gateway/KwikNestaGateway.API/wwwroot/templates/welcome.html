@@ -3,10 +3,9 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Email</title>
+    <title>Welcome Email</title>
 </head>
-
-<body style="margin:0; padding:0; background:#f4f7fb; font-family: Inter, Arial, sans-serif;">
+<body style="margin:0; padding:0; background:#f4f7fb; font-family:Inter, Arial, sans-serif;">
 
     <table width="100%" cellpadding="0" cellspacing="0" role="presentation">
         <tr>
@@ -15,93 +14,80 @@
                 <table width="620" cellpadding="0" cellspacing="0" role="presentation"
                        style="background:#ffffff; border-radius:14px; overflow:hidden; box-shadow:0 8px 30px rgba(0,0,0,0.06);">
 
-                    <!-- Top accent bar -->
                     <tr>
                         <td style="background:linear-gradient(90deg,#0f3b63,#1a5a94); height:6px;"></td>
                     </tr>
 
-                    <!-- Header -->
                     <tr>
                         <td style="padding:28px 40px; text-align:center;">
-                            <img src="https://res.cloudinary.com/dctevxse1/image/upload/v1755309471/lbllx0uwgmgqucq8h83u.png" width="110" alt="Logo" style="display:block; margin:auto;" />
+                            <img src="https://res.cloudinary.com/dctevxse1/image/upload/v1755309471/lbllx0uwgmgqucq8h83u.png" width="110" alt="{{APP_NAME}}" style="display:block; margin:auto;" />
                         </td>
                     </tr>
 
-                    <!-- Title -->
-                    <tr>
-                        <td style="padding:0 40px;">
-                            <h1 style="margin:0; font-size:24px; color:#0f3b63; font-weight:600;">
-                                Welcome to {{AppName}}
-                            </h1>
-                        </td>
-                    </tr>
-
-                    <!-- Message -->
                     <tr>
                         <td style="padding:16px 40px 10px 40px;">
-                            <p style="margin:0; color:#4a5568; font-size:15px; line-height:1.7;">
-                                Hi {{UserName}},
+                            <p style="margin:0; color:#4a5568; font-size:16px; line-height:1.7;">
+                                Hi {{USER_NAME}},
                             </p>
 
-                            <p style="margin-top:12px; color:#4a5568; font-size:15px; line-height:1.7;">
-                                Your account has been successfully created. You're now ready to start using the platform.
-                                Click the button below to continue.
+                            <p style="margin-top:12px; color:#4a5568; font-size:16px; line-height:1.7;">
+                                We're thrilled to have you on board. Your account has been successfully created, and you're ready to explore everything {{APP_NAME}} has to offer.
                             </p>
                         </td>
                     </tr>
 
-                    <!-- CTA -->
                     <tr>
                         <td align="center" style="padding:30px 40px;">
-                            <a href="{{ActionUrl}}"
+                            <a href="{{ACTION_URL}}"
                                style="
-background:linear-gradient(135deg,#ff8a00,#ff6a00);
-color:#ffffff;
-text-decoration:none;
-padding:14px 32px;
-border-radius:8px;
-font-weight:600;
-font-size:14px;
-display:inline-block;
-box-shadow:0 4px 14px rgba(255,138,0,0.35);
-">
-                                Open Dashboard
+                                background:linear-gradient(135deg,#ff8a00,#ff6a00);
+                                color:#ffffff;
+                                text-decoration:none;
+                                padding:16px 36px;
+                                border-radius:10px;
+                                font-weight:700;
+                                font-size:16px;
+                                display:inline-block;
+                                box-shadow:0 6px 18px rgba(255,138,0,0.35);
+                                transition:all 0.2s ease-in-out;
+                                ">
+                                Open Your Dashboard
                             </a>
                         </td>
                     </tr>
 
-                    <!-- Info box -->
                     <tr>
                         <td style="padding:0 40px 28px 40px;">
                             <table width="100%" role="presentation"
-                                   style="background:#f8fbff; border:1px solid #e6eef8; border-radius:10px;">
+                                   style="background:linear-gradient(135deg,#f0f8ff,#ffffff); border:1px solid #e6eef8; border-radius:12px;">
                                 <tr>
-                                    <td style="padding:18px; font-size:14px; color:#4a5568; line-height:1.6;">
-                                        You can now:
-                                        <br><br>
-                                        • Complete your profile
-                                        • Explore available features
-                                        • Start using your dashboard
+                                    <td style="padding:20px; font-size:15px; color:#4a5568; line-height:1.6;">
+                                        Here's what you can do next:
+                                        <ul style="margin:8px 0 0 20px; padding:0;">
+                                            <li>Complete your profile</li>
+                                            <li>Explore available features</li>
+                                            <li>Start using your dashboard</li>
+                                        </ul>
                                     </td>
                                 </tr>
                             </table>
                         </td>
                     </tr>
 
-                    <!-- Divider -->
-                    <tr>
+\                    <tr>
                         <td style="border-top:1px solid #eef2f7;"></td>
                     </tr>
 
-                    <!-- Footer -->
                     <tr>
                         <td style="padding:24px 40px 32px 40px; text-align:center;">
                             <p style="margin:0; font-size:13px; color:#7a8797;">
-                                If you didn’t create this account, you can ignore this email.
+                                If you didn’t create this account, you can safely ignore this email or contact our support team at <a href="mailto:{{SUPPORT_EMAIL}}" style="color:#1a73e8;text-decoration:none;">{{SUPPORT_EMAIL}}</a>.
                             </p>
 
                             <p style="margin-top:12px; font-size:12px; color:#9aa6b2;">
-                                © {{Year}} {{AppName}}. All rights reserved.
+                                The <span style="color: #0f3b63; font-weight: bolder; ">{{APP_NAME}}</span>
+                                <span style="color: #ff8a00; font-weight: bolder; "> Team</span><br><br>
+                                © {{YEAR}} {{APP_NAME}}. All rights reserved.
                             </p>
                         </td>
                     </tr>
