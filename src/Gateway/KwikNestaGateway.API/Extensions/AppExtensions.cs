@@ -25,7 +25,7 @@ namespace KwikNestaGateway.API.Extensions
             app.AddUseHangfireDashboard(config);
             app.MapControllers();
             app.RunMigrations();
-
+            app.RunDataSeedAsync().Wait();
             return app;
         }
 
@@ -33,6 +33,13 @@ namespace KwikNestaGateway.API.Extensions
         {
 
             return app.RunIdentityServiceMigrations();        
+        }
+
+        static async Task<IHost> RunDataSeedAsync(this IHost host)
+        {
+            await host.SeedIdentityData();
+
+            return host;
         }
 
         static WebApplication UseSwaggerDocsUI(this WebApplication app)

@@ -50,5 +50,11 @@ namespace KwikNestaIdentity.Infrastructure
 
             return app;
         }
+
+        public static async Task<IHost> SeedIdentityData(this IHost host)
+        {
+            await host.SeedIdentityDataAsync();
+            return host;
+        }
     }
 }

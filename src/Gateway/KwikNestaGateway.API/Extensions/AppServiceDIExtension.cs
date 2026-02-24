@@ -13,7 +13,6 @@ using KwikNesta.Shared.Models.Settings;
 using KwikNestaIdentity.Application;
 using KwikNestaIdentity.Infrastructure;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Reflection;
@@ -231,7 +230,8 @@ namespace KwikNestaGateway.API.Extensions
 
         private static IServiceCollection AddOtherServices(this IServiceCollection services)
         {
-            return services.AddScoped<INotificationService, NotificationService>();
+            return services.AddScoped<INotificationService, NotificationService>()
+                .AddScoped<IIdentityRepositoryManager, IdentityRepositoryManager>();
         }
     }
 }

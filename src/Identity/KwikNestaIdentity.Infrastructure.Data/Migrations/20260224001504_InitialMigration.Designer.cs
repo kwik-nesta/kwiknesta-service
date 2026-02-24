@@ -3,6 +3,7 @@ using System;
 using KwikNestaIdentity.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace KwikNestaIdentity.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(IdentityServiceDbContext))]
-    partial class IdentityServiceDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260224001504_InitialMigration")]
+    partial class InitialMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -49,6 +52,7 @@ namespace KwikNestaIdentity.Infrastructure.Data.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("TokenHash")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("Type")

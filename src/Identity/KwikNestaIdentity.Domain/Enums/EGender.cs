@@ -4,11 +4,11 @@ namespace KwikNestaIdentity.Domain.Enums
 {
     public enum EGender
     {
-        [Description("Others")]
-        Others,
         [Description("Male")]
         Male,
         [Description("Female")]
-        Female
+        Female,
+        [Description("Others")]
+        Others
     }
 }

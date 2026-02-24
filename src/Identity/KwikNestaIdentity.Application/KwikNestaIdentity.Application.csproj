@@ -9,6 +9,8 @@
   <ItemGroup>
     <ProjectReference Include="..\..\KwikNesta.Mediator\KwikNesta.Mediator.csproj" />
     <ProjectReference Include="..\..\KwikNesta.Shared\KwikNesta.Shared.csproj" />
+    <ProjectReference Include="..\KwikNestaIdentity.Domain\KwikNestaIdentity.Domain.csproj" />
+    <ProjectReference Include="..\KwikNestaIdentity.Infrastructure\KwikNestaIdentity.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

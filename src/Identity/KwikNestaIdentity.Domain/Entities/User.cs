@@ -9,7 +9,7 @@ namespace KwikNestaIdentity.Domain.Entities
         public string LastName { get; set; } = string.Empty;
         public string? OtherName { get; set; }
         public EGender Gender { get; set; }
-        public EUserStatus Status { get; set; }
+        public EUserStatus Status { get; set; } = EUserStatus.PendingVerification;
         public DateTime CreatedOn { get; set; } = DateTime.UtcNow;
         public DateTime? LastUpdatedOn { get; set; }
         public DateTime? LastLogin { get; set; }

@@ -1,12 +1,12 @@
 ﻿using KwikNesta.Mediator.Cores.Abstractions;
 using KwikNesta.Shared.Responses;
-using KwikNestaIdentity.Application.DTOs;
+using KwikNestaIdentity.Domain.Enums;
 
 namespace KwikNestaIdentity.Application.Commands
 {
-    public class LoginCommand : IKNRequest<Response<LoginResponseDto>>
+    public class ResendOtpCommand : IKNRequest<Response<string>>
     {
         public string Email { get; set; } = default!;
-        public string Password { get; set; } = default!;
+        public EOtpType Type { get; set; }
     }
 }

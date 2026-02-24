@@ -21,9 +21,6 @@ namespace KwikNestaIdentity.Infrastructure.Data.Configurations
             builder.Property(u => u.OtpHash)
                 .IsRequired();
 
-            builder.Property(u => u.TokenHash)
-                .IsRequired();
-
             builder.Property(u => u.ExpiresAt)
                 .IsRequired();
 

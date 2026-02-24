@@ -4,5 +4,6 @@
     {
         public JwtSettings Jwt { get; set; } = default!;
         public ResendSettings Resend { get; set; } = default!;
+        public KNAdminSettings AppAdmin {  get; set; } = default!;
     }
 }

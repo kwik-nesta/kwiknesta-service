@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace KwikNestaIdentity.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(IdentityServiceDbContext))]
-    [Migration("20260222225550_InitialIdentityMigration")]
-    partial class InitialIdentityMigration
+    [Migration("20260224180205_NullifyTokenHashColumn")]
+    partial class NullifyTokenHashColumn
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -52,7 +52,6 @@ namespace KwikNestaIdentity.Infrastructure.Data.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("TokenHash")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("Type")

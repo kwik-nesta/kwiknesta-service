@@ -11,7 +11,7 @@ namespace KwikNestaIdentity.Domain.Entities
         public string OtpHash { get; set; } = default!;
         public DateTime ExpiresAt { get; set; }
         public EOtpType Type { get; set; }
-        public string TokenHash { get; set; } = default!;
+        public string? TokenHash { get; set; } = default!;
         public int Attempts { get; set; }
     }
 }

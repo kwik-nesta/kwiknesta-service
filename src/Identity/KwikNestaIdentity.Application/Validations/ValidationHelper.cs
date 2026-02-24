@@ -1,0 +1,61 @@
+﻿using System.Text.RegularExpressions;
+
+namespace KwikNestaIdentity.Application.Validations
+{
+    internal class ValidationHelper
+    {
+        private static readonly Regex E164Regex =
+            new(@"^\+[1-9]\d{1,14}$", RegexOptions.Compiled);
+
+        private static readonly Regex E164NoPlusRegex =
+            new(@"^[1-9]\d{7,14}$", RegexOptions.Compiled);
+
+        internal static bool IsPasswordMatch(string password, string comparePassword)
+        {
+            return password.ToLower().Equals(comparePassword.ToLower());
+        }
+
+        public static bool IsValidE164(string phone)
+        {
+            return IsValid(phone);
+        }
+
+        private static bool IsValid(string phoneNumber)
+        {
+            if (string.IsNullOrWhiteSpace(phoneNumber))
+                return false;
+
+            phoneNumber = NormalizeNumber(phoneNumber);
+            return E164Regex.IsMatch(phoneNumber);
+        }
+
+        private static bool IsValidWithoutPlus(string phoneNumber)
+        {
+            if (string.IsNullOrWhiteSpace(phoneNumber))
+                return false;
+
+            phoneNumber = NormalizeNumber(phoneNumber);
+            phoneNumber = DigitOnlyNumber(phoneNumber);
+            return E164NoPlusRegex.IsMatch(phoneNumber);
+        }
+
+        private static string DigitOnlyNumber(string phone)
+        {
+            if (string.IsNullOrWhiteSpace(phone)) return phone;
+            var digitsOnly = Regex.Replace(phone, @"\D", "");
+            return digitsOnly;
+        }
+
+        public static string NormalizeNumber(string phone)
+        {
+            if (string.IsNullOrWhiteSpace(phone))
+                return phone;
+
+            return phone
+                .Replace(" ", "")
+                .Replace("-", "")
+                .Replace("(", "")
+                .Replace(")", "");
+        }
+    }
+}
