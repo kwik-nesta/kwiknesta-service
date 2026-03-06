@@ -1,5 +1,6 @@
 ﻿using KwikNesta.Mediator.Cores.Abstractions;
 using KwikNesta.Shared.Helpers;
+using KwikNesta.Shared.Implementations;
 using KwikNesta.Shared.Models.Settings;
 using KwikNesta.Shared.Responses;
 using KwikNestaIdentity.Application.Commands;
@@ -7,7 +8,10 @@ using KwikNestaIdentity.Domain.Entities;
 using KwikNestaIdentity.Domain.Enums;
 using KwikNestaIdentity.Infrastructure;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
+using KwikNesta.Shared.Extensions;
+using KwikNesta.Shared.Constants;
 
 namespace KwikNestaIdentity.Application.Handlers
 {
@@ -16,14 +20,20 @@ namespace KwikNestaIdentity.Application.Handlers
         private readonly UserManager<User> _userManager;
         private readonly IIdentityRepositoryManager _repository;
         private readonly JwtSettings _jwtSettings;
+        private readonly IHostEnvironment _host;
+        private readonly KNAdminSettings _adminSettings;
+        private readonly int delayInHours = 1;
 
         public AccountVerificationCommandHandler(UserManager<User> userManager,
                                                 IIdentityRepositoryManager repository,
-                                                IOptions<KNApplicationSettings> options)
+                                                IOptions<KNApplicationSettings> options,
+                                                IHostEnvironment host)
         {
             _userManager = userManager;
             _repository = repository;
             _jwtSettings = options.Value.Jwt;
+            _host = host;
+            _adminSettings = options.Value.AppAdmin;
         }
 
         public async Task<Response<string>> HandleAsync(AccountVerificationCommand request, CancellationToken cancellationToken)
@@ -62,6 +72,13 @@ namespace KwikNestaIdentity.Application.Handlers
             
             _repository.OtpEntry.Remove(otpEntry);
             await _repository.SaveAsync();
+
+            Notifications.SendScheduledEmail(user.Email!, 
+                string.Format(IdentityResponse.WelcomeEmailSubject, AppConstants.Platform),
+                _host.GetWelcomeNotification(user.FirstName, 
+                                        _adminSettings.BaseUrl, 
+                                        _adminSettings.SupportEmail),
+                delayInHours);
 
             return Response<string>.Ok(IdentityResponse.AccountVerificationSuccessful);
         }

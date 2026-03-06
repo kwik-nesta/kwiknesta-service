@@ -9,7 +9,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace KwikNestaIdentity.Infrastructure.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialMigration : Migration
+    public partial class InitialCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -194,7 +194,7 @@ namespace KwikNestaIdentity.Infrastructure.Data.Migrations
                     OtpHash = table.Column<string>(type: "text", nullable: false),
                     ExpiresAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     Type = table.Column<string>(type: "text", nullable: false),
-                    TokenHash = table.Column<string>(type: "text", nullable: false),
+                    TokenHash = table.Column<string>(type: "text", nullable: true),
                     Attempts = table.Column<int>(type: "integer", nullable: false),
                     IsDeprecated = table.Column<bool>(type: "boolean", nullable: false),
                     CreatedOn = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),

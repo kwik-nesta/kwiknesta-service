@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace KwikNestaIdentity.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(IdentityServiceDbContext))]
-    [Migration("20260224180205_NullifyTokenHashColumn")]
-    partial class NullifyTokenHashColumn
+    [Migration("20260225233004_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

@@ -10,6 +10,7 @@ using KwikNesta.Shared.Constants;
 using KwikNesta.Shared.Contracts;
 using KwikNesta.Shared.Implementations;
 using KwikNesta.Shared.Models.Settings;
+using KwikNesta.Shared.Responses;
 using KwikNestaIdentity.Application;
 using KwikNestaIdentity.Infrastructure;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -17,6 +18,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Reflection;
 using System.Text;
+using System.Text.Json;
 
 namespace KwikNestaGateway.API.Extensions
 {
@@ -49,6 +51,7 @@ namespace KwikNestaGateway.API.Extensions
                 {
                     opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                     opt.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                    opt.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
                 }).AddJwtBearer(opt =>
                 {
                     opt.TokenValidationParameters = new TokenValidationParameters

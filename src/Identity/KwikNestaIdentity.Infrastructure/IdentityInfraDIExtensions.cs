@@ -21,7 +21,7 @@ namespace KwikNestaIdentity.Infrastructure
             services.AddDbContext<IdentityServiceDbContext>(options =>
                 options.UseNpgsql(connectionString));
 
-            services.AddIdentity<User, IdentityRole>(options =>
+            services.AddIdentityCore<User>(options =>
             {
                 options.Password.RequireNonAlphanumeric = true;
                 options.Password.RequiredLength = 8;
@@ -33,8 +33,10 @@ namespace KwikNestaIdentity.Infrastructure
                 options.SignIn.RequireConfirmedEmail = true;
                 options.User.RequireUniqueEmail = true;
             })
+            .AddRoles<IdentityRole>()
             .AddEntityFrameworkStores<IdentityServiceDbContext>()
-            .AddDefaultTokenProviders();
+            .AddDefaultTokenProviders()
+            .AddSignInManager();
 
             return services;
         }

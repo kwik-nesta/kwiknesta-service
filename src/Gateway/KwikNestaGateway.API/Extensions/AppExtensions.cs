@@ -11,6 +11,7 @@ namespace KwikNestaGateway.API.Extensions
     {
         public static IApplicationBuilder UseMiddlewares(this WebApplication app, IConfiguration config)
         {
+
             app.UseSwaggerDocsUI();
             app.UseForwardedHeaders(new ForwardedHeadersOptions
             {
@@ -18,12 +19,18 @@ namespace KwikNestaGateway.API.Extensions
             });
 
             app.UseMiddleware<RequestLoggingMiddleware>();
+
             app.UseCors("CorsPolicy");
+
             app.UseHttpsRedirection();
+
             app.UseAuthentication();
             app.UseAuthorization();
+
             app.AddUseHangfireDashboard(config);
+
             app.MapControllers();
+
             app.RunMigrations();
             app.RunDataSeedAsync().Wait();
             return app;

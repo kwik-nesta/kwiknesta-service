@@ -34,5 +34,31 @@ namespace KwikNesta.Shared.Extensions
 
             return message;
         }
+
+        public static string GetWelcomeNotification(this IHostEnvironment host,
+                                                string name,
+                                                string clientBaseUrl,
+                                                string supportEmail)
+        {
+            var path = Path.Combine(host.ContentRootPath, "wwwroot", "templates", "welcome.html");
+            if (!File.Exists(path))
+            {
+                throw new Exception($"Path, {path}, not found");
+            }
+
+            var template = File.ReadAllText(path);
+            if (string.IsNullOrEmpty(template))
+            {
+                throw new ArgumentNullException("Email template content can not be empty");
+            }
+
+            var message = template.Replace("{{USER_NAME}}", name)
+                .Replace("{{APP_NAME}}", AppConstants.Platform)
+                .Replace("{{SUPPORT_EMAIL}}", supportEmail)
+                .Replace("{{APP_URL}}", clientBaseUrl)
+                .Replace("{{YEAR}}", DateTime.UtcNow.ToString("yyyy"));
+
+            return message;
+        }
     }
 }

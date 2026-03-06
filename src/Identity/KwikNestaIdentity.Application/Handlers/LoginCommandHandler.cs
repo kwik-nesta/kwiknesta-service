@@ -9,7 +9,6 @@ using KwikNestaIdentity.Domain.Enums;
 using KwikNestaIdentity.Infrastructure;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
-using static Dapper.SqlMapper;
 
 namespace KwikNestaIdentity.Application.Handlers
 {

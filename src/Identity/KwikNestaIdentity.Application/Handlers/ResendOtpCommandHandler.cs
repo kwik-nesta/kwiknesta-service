@@ -56,7 +56,7 @@ namespace KwikNestaIdentity.Application.Handlers
 
             var existingOtpEntry = await _repository.OtpEntry
                 .FirstOrDefault(o => o.UserId.Equals(user.Id) &&
-                                    o.Type == EOtpType.AccountVerification);
+                                    o.Type == request.Type);
             if (existingOtpEntry != null)
             {
                 _repository.OtpEntry.Remove(existingOtpEntry);
@@ -64,28 +64,47 @@ namespace KwikNestaIdentity.Application.Handlers
 
             var otp = TokenHelper.GenerateOtp();
             var otpHash = TokenHelper.HashToken(otp, _jwtSettings.Key);
-            var otpEntry = InitializeOtp(user.Id, otpHash);
+            var otpEntry = InitializeOtp(user.Id, otpHash, request.Type);
             await _repository.OtpEntry.AddAsync(otpEntry);
 
             await _repository.SaveAsync();
-            Notifications.SendEmail(user.Email!, IdentityResponse.AccountActivationSubject,
+
+            var (subject, body, securityMessage) = GetMessageDetails(request.Type);
+            Notifications.SendEmail(user.Email!, subject,
                 _host.GetOtpNotification(user.FirstName,
-                                        IdentityResponse.AccountActivationMessage,
+                                        body,
                                         otp,
-                                        IdentityResponse.AccountActivationSecurityNotice,
+                                        securityMessage,
                                         OtpExpirationMinute));
 
             return Response<string>.Ok(IdentityResponse.ActivationOtpSent);
         }
 
-        private OtpEntry InitializeOtp(string userId, string otpHash)
+        private OtpEntry InitializeOtp(string userId, string otpHash, EOtpType type)
         {
             return new OtpEntry
             {
                 UserId = userId,
                 OtpHash = otpHash,
                 ExpiresAt = DateTime.UtcNow.AddMinutes(OtpExpirationMinute),
-                Type = EOtpType.AccountVerification
+                Type = type
+            };
+        }
+
+        private (string subject,  string body, string securityMessage) GetMessageDetails(EOtpType type)
+        {
+            return type switch
+            {
+                EOtpType.AccountVerification => (IdentityResponse.AccountActivationSubject,
+                                        IdentityResponse.AccountActivationMessage,
+                                        IdentityResponse.AccountActivationSecurityNotice),
+                EOtpType.PasswordReset => (IdentityResponse.PasswordResetSubject,
+                                        IdentityResponse.PasswordResetMessage,
+                                        IdentityResponse.PasswordResetSecurityNotice),
+                EOtpType.AccountReactivation => (IdentityResponse.AccountReactivationSubject,
+                                        IdentityResponse.AccountReactivationMessage,
+                                        IdentityResponse.AccountReactivationSecurityNotice),
+                _ => throw new NotImplementedException(),
             };
         }
     }

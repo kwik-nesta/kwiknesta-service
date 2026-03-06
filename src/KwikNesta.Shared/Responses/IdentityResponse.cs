@@ -20,5 +20,12 @@
         public static readonly string UserNotFoundWithId = "No user found with the specified id";
         public static readonly string UserAlreadyVerified = "Account already verified. Please login";
         public static readonly string ActivationOtpSent = "OTP successfully resent. Please check your email.";
+        public static readonly string PasswordResetSubject = "Reset Your Password";
+        public static readonly string PasswordResetMessage = "We received a request to reset your password. Use the OTP coe below to set a new password:";
+        public static readonly string PasswordResetSecurityNotice = "If you didn’t request a password reset, you can safely ignore this email. Your account is safe.";
+        public static readonly string AccountReactivationSubject = "Reactivate Your Account";
+        public static readonly string AccountReactivationMessage = "We received a request to reactivate your account. Pleaseuse the OTP below to complete reactivation.";
+        public static readonly string AccountReactivationSecurityNotice = "If you request a reactivation, you can safely ignore this email. Your account is safe.";
+        public static readonly string WelcomeEmailSubject = "Welcome to {0}";
     }
 }

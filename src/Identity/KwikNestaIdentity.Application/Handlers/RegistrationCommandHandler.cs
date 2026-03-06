@@ -18,7 +18,7 @@ namespace KwikNestaIdentity.Application.Handlers
 {
     public class RegistrationCommandHandler : IKNRequestHandler<RegistrationCommand, Response<RegistrationDto>>
     {
-        private List<ESystemRoles> _accpetedRoles = new List<ESystemRoles> { ESystemRoles.LandLord, ESystemRoles.Tenant };
+        private readonly List<ESystemRoles> _accpetedRoles = new List<ESystemRoles> { ESystemRoles.LandLord, ESystemRoles.Tenant };
         private const int OtpExpirationMinute = 10;
         private readonly IIdentityRepositoryManager _repository;
         private readonly UserManager<User> _userManager;
