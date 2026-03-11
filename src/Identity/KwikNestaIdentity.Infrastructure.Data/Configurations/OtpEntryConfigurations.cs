@@ -1,5 +1,4 @@
 ﻿using KwikNestaIdentity.Domain.Entities;
-using KwikNestaIdentity.Domain.Enums;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

@@ -1,7 +1,7 @@
 ﻿using KwikNesta.Shared.Extensions;
+using KwikNesta.Shared.Models.Enumerations.Identity;
 using KwikNesta.Shared.Models.Settings;
 using KwikNestaIdentity.Domain.Entities;
-using KwikNestaIdentity.Domain.Enums;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;

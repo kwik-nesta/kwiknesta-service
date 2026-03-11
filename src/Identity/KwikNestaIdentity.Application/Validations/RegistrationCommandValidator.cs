@@ -1,5 +1,5 @@
 ﻿using FluentValidation;
-using KwikNestaIdentity.Application.Commands;
+using KwikNesta.Shared.ServiceCommands.Identity;
 
 namespace KwikNestaIdentity.Application.Validations
 {

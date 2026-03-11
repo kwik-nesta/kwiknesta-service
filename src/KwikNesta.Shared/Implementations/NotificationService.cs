@@ -2,7 +2,7 @@
 using KwikNesta.Shared.Contracts;
 using KwikNesta.Shared.Extensions;
 using KwikNesta.Shared.Models;
-using KwikNesta.Shared.Models.Enumerations;
+using KwikNesta.Shared.Models.Enumerations.Infra;
 using KwikNesta.Shared.Models.Settings;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;

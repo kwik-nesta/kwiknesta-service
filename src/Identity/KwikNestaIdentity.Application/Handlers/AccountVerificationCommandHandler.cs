@@ -3,15 +3,15 @@ using KwikNesta.Shared.Helpers;
 using KwikNesta.Shared.Implementations;
 using KwikNesta.Shared.Models.Settings;
 using KwikNesta.Shared.Responses;
-using KwikNestaIdentity.Application.Commands;
 using KwikNestaIdentity.Domain.Entities;
-using KwikNestaIdentity.Domain.Enums;
 using KwikNestaIdentity.Infrastructure;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using KwikNesta.Shared.Extensions;
 using KwikNesta.Shared.Constants;
+using KwikNesta.Shared.ServiceCommands.Identity;
+using KwikNesta.Shared.Models.Enumerations.Identity;
 
 namespace KwikNestaIdentity.Application.Handlers
 {

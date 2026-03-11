@@ -12,7 +12,12 @@ namespace KwikNestaIdentity.Application.Validations
 
         internal static bool IsPasswordMatch(string password, string comparePassword)
         {
-            return password.ToLower().Equals(comparePassword.ToLower());
+            return password.Equals(comparePassword);
+        }
+
+        internal static bool ValidUserId(string userId)
+        {
+            return !string.IsNullOrWhiteSpace(userId) && userId.Length == 32;
         }
 
         public static bool IsValidE164(string phone)

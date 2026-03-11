@@ -22,6 +22,8 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Identity\KwikNestaIdentity.Application\KwikNestaIdentity.Application.csproj" />
     <ProjectReference Include="..\..\Identity\KwikNestaIdentity.Infrastructure\KwikNestaIdentity.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\Infra\KwikNestaInfra.Application\KwikNestaInfra.Application.csproj" />
+    <ProjectReference Include="..\..\Infra\KwikNestaInfra.Infrastructure\KwikNestaInfra.Infrastructure.csproj" />
     <ProjectReference Include="..\..\KwikNesta.Mediator\KwikNesta.Mediator.csproj" />
     <ProjectReference Include="..\..\KwikNesta.Shared\KwikNesta.Shared.csproj" />
   </ItemGroup>

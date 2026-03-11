@@ -10,15 +10,15 @@ using KwikNesta.Shared.Constants;
 using KwikNesta.Shared.Contracts;
 using KwikNesta.Shared.Implementations;
 using KwikNesta.Shared.Models.Settings;
-using KwikNesta.Shared.Responses;
 using KwikNestaIdentity.Application;
 using KwikNestaIdentity.Infrastructure;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Reflection;
+using KwikNestaInfra.Infrastructure;
 using System.Text;
-using System.Text.Json;
+using KwikNestaInfra.Application;
 
 namespace KwikNestaGateway.API.Extensions
 {
@@ -78,7 +78,9 @@ namespace KwikNestaGateway.API.Extensions
         private static IServiceCollection ConfigureMediator(this  IServiceCollection services)
         {
             return services
-                .ConfigureKNMediators(typeof(IdentityAppAssemblyMarker).Assembly)
+                .ConfigureKNMediators(
+                    typeof(IdentityAppAssemblyMarker).Assembly, 
+                    typeof(InfraAppAssemblyMarker).Assembly)
                 .AddTransient(typeof(IKNPipelineBehavior<,>), typeof(LoggingBehavior<,>))
                 .AddTransient(typeof(IKNNotificationBehavior<>), typeof(NotificationLoggingBehavior<>));
         }
@@ -105,7 +107,7 @@ namespace KwikNestaGateway.API.Extensions
                     Contact = new OpenApiContact
                     {
                         Name = "KwikNesta",
-                        Email = "info@kwik-nesta.com",
+                        Email = "info@kwiknesta.com",
                         Url = new Uri("https://kwik-nesta.com")
                     }
                 });
@@ -117,7 +119,7 @@ namespace KwikNestaGateway.API.Extensions
                     Contact = new OpenApiContact
                     {
                         Name = "KwikNesta",
-                        Email = "info@kwik-nesta.com",
+                        Email = "info@kwiknesta.com",
                         Url = new Uri("https://kwik-nesta.com")
                     }
                 });
@@ -194,6 +196,7 @@ namespace KwikNestaGateway.API.Extensions
                                                             IConfiguration configuration)
         {
             services.ConfigureIdentityServiceDbContexts(configuration);
+            services.ConfigureInfraServices(configuration);
             return services;
         }
 

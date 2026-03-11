@@ -1,11 +1,13 @@
 ﻿using KwikNesta.Mediator.Cores.Abstractions;
 using KwikNesta.Shared.Helpers;
+using KwikNesta.Shared.Implementations;
+using KwikNesta.Shared.Models.Enumerations.Identity;
+using KwikNesta.Shared.Models.Enumerations.Infra;
 using KwikNesta.Shared.Models.Settings;
 using KwikNesta.Shared.Responses;
-using KwikNestaIdentity.Application.Commands;
-using KwikNestaIdentity.Application.DTOs;
+using KwikNesta.Shared.ServiceCommands.Identity;
+using KwikNesta.Shared.ServiceDTOs.Identity;
 using KwikNestaIdentity.Domain.Entities;
-using KwikNestaIdentity.Domain.Enums;
 using KwikNestaIdentity.Infrastructure;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
@@ -55,7 +57,13 @@ namespace KwikNestaIdentity.Application.Handlers
             });
 
             await _repository.SaveAsync();
- 
+
+            AppAudit.Write(user.Id, 
+                        user.Email!, 
+                        EAuditAction.Login, 
+                        EAuditDomain.UserAccount, 
+                        user.Id, 
+                        request.UserIpAddress);
             return Response<LoginResponseDto>.Ok(new LoginResponseDto(accessToken, refreshToken));
         }
 

@@ -1,5 +1,5 @@
 ﻿using KwikNesta.Shared.Extensions;
-using KwikNestaIdentity.Domain.Enums;
+using KwikNesta.Shared.Models.Enumerations.Identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;

@@ -3,6 +3,7 @@ using KwikNesta.Shared.Models.Settings;
 using KwikNestaGateway.API.Filters;
 using KwikNestaGateway.API.Middlewares;
 using KwikNestaIdentity.Infrastructure;
+using KwikNestaInfra.Infrastructure;
 using Microsoft.AspNetCore.HttpOverrides;
 
 namespace KwikNestaGateway.API.Extensions
@@ -15,7 +16,9 @@ namespace KwikNestaGateway.API.Extensions
             app.UseSwaggerDocsUI();
             app.UseForwardedHeaders(new ForwardedHeadersOptions
             {
-                ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
+                ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto,
+                KnownNetworks = { },
+                KnownProxies = { }
             });
 
             app.UseMiddleware<RequestLoggingMiddleware>();
@@ -39,7 +42,8 @@ namespace KwikNestaGateway.API.Extensions
         static WebApplication RunMigrations(this WebApplication app)
         {
 
-            return app.RunIdentityServiceMigrations();        
+            return app.RunIdentityServiceMigrations()
+                .RunInfraServiceMigrations();        
         }
 
         static async Task<IHost> RunDataSeedAsync(this IHost host)

@@ -2,13 +2,13 @@
 using KwikNesta.Shared.Extensions;
 using KwikNesta.Shared.Helpers;
 using KwikNesta.Shared.Implementations;
+using KwikNesta.Shared.Models.Enumerations.Identity;
 using KwikNesta.Shared.Models.Settings;
 using KwikNesta.Shared.Responses;
-using KwikNestaIdentity.Application.Commands;
-using KwikNestaIdentity.Application.DTOs;
+using KwikNesta.Shared.ServiceCommands.Identity;
+using KwikNesta.Shared.ServiceDTOs.Identity;
 using KwikNestaIdentity.Application.Validations;
 using KwikNestaIdentity.Domain.Entities;
-using KwikNestaIdentity.Domain.Enums;
 using KwikNestaIdentity.Infrastructure;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Hosting;

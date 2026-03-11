@@ -27,5 +27,10 @@
         public static readonly string AccountReactivationMessage = "We received a request to reactivate your account. Pleaseuse the OTP below to complete reactivation.";
         public static readonly string AccountReactivationSecurityNotice = "If you request a reactivation, you can safely ignore this email. Your account is safe.";
         public static readonly string WelcomeEmailSubject = "Welcome to {0}";
+        public static readonly string InvalidRefreshToken = "Invalid refresh token";
+        public static readonly string UserInactive = "User is inactive. Please reactivate your account to continue or contact support for assistance.";
+        public static readonly string ExpiredToken = "Invalid or expired token";
+        public static readonly string AccessDenied = "Access denied.";
+        public static readonly string PasswordChanged = "Password changed successfully. Please login with the new password";
     }
 }

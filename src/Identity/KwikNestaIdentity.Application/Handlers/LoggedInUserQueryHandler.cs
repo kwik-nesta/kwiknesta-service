@@ -1,7 +1,7 @@
 ﻿using KwikNesta.Mediator.Cores.Abstractions;
 using KwikNesta.Shared.Responses;
-using KwikNestaIdentity.Application.DTOs;
-using KwikNestaIdentity.Application.Queries;
+using KwikNesta.Shared.ServiceDTOs.Identity;
+using KwikNesta.Shared.ServiceQueries.Identity;
 using KwikNestaIdentity.Domain.Entities;
 using Microsoft.AspNetCore.Identity;
 

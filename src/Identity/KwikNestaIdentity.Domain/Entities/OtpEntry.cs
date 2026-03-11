@@ -1,5 +1,5 @@
 ﻿using KwikNesta.Shared.Models;
-using KwikNestaIdentity.Domain.Enums;
+using KwikNesta.Shared.Models.Enumerations.Identity;
 
 namespace KwikNestaIdentity.Domain.Entities
 {

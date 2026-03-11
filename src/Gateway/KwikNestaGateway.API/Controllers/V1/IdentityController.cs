@@ -2,9 +2,9 @@
 using KwikNesta.Mediator.Cores.Abstractions;
 using KwikNesta.Shared.Extensions;
 using KwikNesta.Shared.Responses;
-using KwikNestaIdentity.Application.Commands;
-using KwikNestaIdentity.Application.DTOs;
-using KwikNestaIdentity.Application.Queries;
+using KwikNesta.Shared.ServiceCommands.Identity;
+using KwikNesta.Shared.ServiceDTOs.Identity;
+using KwikNesta.Shared.ServiceQueries.Identity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -31,6 +31,7 @@ namespace KwikNestaGateway.API.Controllers.V1
         [ProducesResponseType(typeof(Response<LoginResponseDto>), 200)]
         public async Task<IActionResult> Login([FromBody] LoginCommand command)
         {
+            command.UserIpAddress = HttpContext.GetUserIp();
             return Ok(await _mediator.SendAsync(command));
         }
 
@@ -67,6 +68,39 @@ namespace KwikNestaGateway.API.Controllers.V1
         [HttpPost("auth/otp")]
         public async Task<IActionResult> RequestOtp([FromBody] ResendOtpCommand command)
         {
+            var result = await _mediator.SendAsync(command);
+            return Ok(result);
+        }
+
+        /// <summary>
+        /// Refreshes token
+        /// </summary>
+        /// <param name="command"></param>
+        /// <returns></returns>
+        [HttpPatch("auth/token")]
+        public async Task<IActionResult> RefreshToken([FromBody] RefreshTokenCommand command)
+        {
+            var result = await _mediator.SendAsync(command);
+            return Ok(result);
+        }
+
+        /// <summary>
+        /// Change password
+        /// </summary>
+        /// <param name="command"></param>
+        /// <returns></returns>
+        [Authorize]
+        [HttpPatch("auth/password")]
+        public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordCommand command)
+        {
+            var userId = HttpContext.User.GetLoggedInUserId();
+            if (string.IsNullOrWhiteSpace(userId))
+            {
+                return Forbid();
+            }
+
+            command.UserId = userId;
+            command.UserIpAddress = HttpContext.GetUserIp();
             var result = await _mediator.SendAsync(command);
             return Ok(result);
         }

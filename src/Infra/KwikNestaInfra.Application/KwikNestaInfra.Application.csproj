@@ -6,4 +6,11 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\KwikNesta.Mediator\KwikNesta.Mediator.csproj" />
+    <ProjectReference Include="..\..\KwikNesta.Shared\KwikNesta.Shared.csproj" />
+    <ProjectReference Include="..\KwikNestaInfra.Domain\KwikNestaInfra.Domain.csproj" />
+    <ProjectReference Include="..\KwikNestaInfra.Infrastructure\KwikNestaInfra.Infrastructure.csproj" />
+  </ItemGroup>
+
 </Project>

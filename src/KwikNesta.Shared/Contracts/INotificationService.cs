@@ -1,5 +1,4 @@
-﻿
-using KwikNesta.Shared.Models.Enumerations;
+﻿using KwikNesta.Shared.Models.Enumerations.Infra;
 
 namespace KwikNesta.Shared.Contracts
 {

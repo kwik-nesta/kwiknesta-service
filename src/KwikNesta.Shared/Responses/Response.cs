@@ -17,7 +17,7 @@
             StatusCode = code;
         }
 
-        public Response(string message, int code)
+        protected Response(string message, int code)
         {
             Message = message;
             StatusCode = code;

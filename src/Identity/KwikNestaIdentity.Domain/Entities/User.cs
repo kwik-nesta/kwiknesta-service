@@ -1,4 +1,4 @@
-﻿using KwikNestaIdentity.Domain.Enums;
+﻿using KwikNesta.Shared.Models.Enumerations.Identity;
 using Microsoft.AspNetCore.Identity;
 
 namespace KwikNestaIdentity.Domain.Entities
