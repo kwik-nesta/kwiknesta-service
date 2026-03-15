@@ -72,7 +72,7 @@ namespace KwikNestaIdentity.Application.Handlers
                     IdentityResponse.RegistrationFailed, 400);
             }
 
-            var otp = TokenHelper.GenerateOtp();
+            var otp = TokenHelper.GenerateOtp(8);
             var otpHash = TokenHelper.HashToken(otp, _jwtSettings.Key);
             var otpEntry = InitializeOtp(user.Id, otpHash);
             await _repository.OtpEntry.AddAsync(otpEntry);

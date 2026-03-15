@@ -21,7 +21,7 @@
         public static readonly string UserAlreadyVerified = "Account already verified. Please login";
         public static readonly string ActivationOtpSent = "OTP successfully resent. Please check your email.";
         public static readonly string PasswordResetSubject = "Reset Your Password";
-        public static readonly string PasswordResetMessage = "We received a request to reset your password. Use the OTP coe below to set a new password:";
+        public static readonly string PasswordResetMessage = "We received a request to reset your password. Use the OTP code below to set a new password:";
         public static readonly string PasswordResetSecurityNotice = "If you didn’t request a password reset, you can safely ignore this email. Your account is safe.";
         public static readonly string AccountReactivationSubject = "Reactivate Your Account";
         public static readonly string AccountReactivationMessage = "We received a request to reactivate your account. Pleaseuse the OTP below to complete reactivation.";
@@ -32,5 +32,11 @@
         public static readonly string ExpiredToken = "Invalid or expired token";
         public static readonly string AccessDenied = "Access denied.";
         public static readonly string PasswordChanged = "Password changed successfully. Please login with the new password";
+        public static readonly string PasswordChangedFailed = "Password change failed. Please try again shortly.";
+        public static readonly string PasswordResetSuccessful = "Password reset request successful. Please enter the OTP sent to your email to complete the process";
+        public static readonly string ForgotPasswordInformationSubject = "Password Reset Successful";
+        public static readonly string ForgotPasswordInformationMessage = "This is a confirmation that your password has been successfully reset.<br>If you made this change, you can now sign in using your new password.<br>If you did not request this password reset, please contact our support team immediately so we can help secure your account.";
+        public static readonly string ChangePasswordInformationSubject = "Your Password Was Changed";
+        public static readonly string ChangePasswordInformationMessage = "This is a confirmation that the password for your account has been successfully changed.<br>If you made this change, no further action is required.<br>If you did not change your password, please reset your password immediately and contact our support team so we can help secure your account.";
     }
 }

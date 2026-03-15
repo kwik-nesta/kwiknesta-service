@@ -1,22 +1,31 @@
 ﻿using KwikNesta.Mediator.Cores.Abstractions;
+using KwikNesta.Shared.Extensions;
 using KwikNesta.Shared.Implementations;
 using KwikNesta.Shared.Models.Enumerations.Infra;
+using KwikNesta.Shared.Models.Settings;
 using KwikNesta.Shared.Responses;
 using KwikNesta.Shared.ServiceCommands.Identity;
 using KwikNestaIdentity.Application.Validations;
 using KwikNestaIdentity.Domain.Entities;
 using Microsoft.AspNetCore.Identity;
-using System.Security.Claims;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Options;
 
 namespace KwikNestaIdentity.Application.Handlers
 {
     public class ChangePasswordCommandHandler : IKNRequestHandler<ChangePasswordCommand, Response<string>>
     {
         private readonly UserManager<User> _userManager;
+        private readonly IHostEnvironment _host;
+        private readonly string _supportEmail;
 
-        public ChangePasswordCommandHandler(UserManager<User> userManager)
+        public ChangePasswordCommandHandler(UserManager<User> userManager,
+                                        IHostEnvironment host,
+                                        IOptions<KNApplicationSettings> options)
         {
             _userManager = userManager;
+            _host = host;
+            _supportEmail = options.Value.AppAdmin.SupportEmail;
         }
 
         public async Task<Response<string>> HandleAsync(ChangePasswordCommand request, CancellationToken cancellationToken)
@@ -40,12 +49,11 @@ namespace KwikNestaIdentity.Application.Handlers
                 return Response<string>.Fail($"{result.Errors.FirstOrDefault()?.Description}", 401);
             }
 
-            //// Notify the user
-            //await _pubSub.PublishAsync(NotificationMessage.Initialize(user.Email!, user.FirstName,
-            //    EmailType.PasswordResetNotification),
-            //    routingKey: MQRoutingKey.AccountEmail.GetDescription());
+            Notifications.SendEmail(user.Email!, IdentityResponse.ChangePasswordInformationSubject,
+                _host.GetInformationalNotification(user.FirstName,
+                                        IdentityResponse.ChangePasswordInformationMessage,
+                                        _supportEmail));
 
-            //// Log action
             AppAudit.Write(user.Id,
                         user.Email!,
                         EAuditAction.ChangedPassword,

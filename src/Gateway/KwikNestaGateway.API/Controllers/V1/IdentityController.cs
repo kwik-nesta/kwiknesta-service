@@ -106,6 +106,30 @@ namespace KwikNestaGateway.API.Controllers.V1
         }
 
         /// <summary>
+        /// Resets password
+        /// </summary>
+        /// <param name="command"></param>
+        /// <returns></returns>
+        [HttpPatch("auth/reset-password")]
+        public async Task<IActionResult> PasswordReset([FromBody] ResetPasswordCommand command)
+        {
+            var result = await _mediator.SendAsync(command);
+            return Ok(result);
+        }
+
+        /// <summary>
+        /// Change forgotten password
+        /// </summary>
+        /// <param name="command"></param>
+        /// <returns></returns>
+        [HttpPatch("auth/forgot-password")]
+        public async Task<IActionResult> ChangeForgot([FromBody] ForgotPasswordCommand command)
+        {
+            var result = await _mediator.SendAsync(command);
+            return Ok(result);
+        }
+
+        /// <summary>
         /// Get logged in user details
         /// </summary>
         /// <returns></returns>
