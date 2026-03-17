@@ -1,4 +1,5 @@
-﻿using KwikNesta.Shared.Models.Enumerations.Identity;
+﻿using KwikNesta.Shared.Extensions;
+using KwikNesta.Shared.Models.Enumerations.Identity;
 using KwikNesta.Shared.Responses;
 using KwikNestaIdentity.Domain.Entities;
 using Microsoft.AspNetCore.Identity;
@@ -32,7 +33,8 @@ namespace KwikNestaGateway.API.Middlewares
                     {
                         context.Response.StatusCode = StatusCodes.Status403Forbidden;
                         context.Response.ContentType = "application/json";
-                        var json = JsonSerializer.Serialize(Response<string>.Fail("Account is deactivated.", 403));
+                        var status = dbUser == null ? "deactivated" : dbUser.Status.GetDescription().ToLower();
+                        var json = JsonSerializer.Serialize(Response<string>.Fail($"Account is {status}.", 403));
                         await context.Response.WriteAsync(json);
                         return;
                     }

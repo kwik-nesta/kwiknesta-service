@@ -13,20 +13,14 @@ using Microsoft.Extensions.Options;
 
 namespace KwikNestaIdentity.Application.Handlers
 {
-    public class ChangePasswordCommandHandler : IKNRequestHandler<ChangePasswordCommand, Response<string>>
+    public class ChangePasswordCommandHandler(UserManager<User> userManager,
+                                    IHostEnvironment host,
+                                    IOptions<KNApplicationSettings> options) 
+        : IKNRequestHandler<ChangePasswordCommand, Response<string>>
     {
-        private readonly UserManager<User> _userManager;
-        private readonly IHostEnvironment _host;
-        private readonly string _supportEmail;
-
-        public ChangePasswordCommandHandler(UserManager<User> userManager,
-                                        IHostEnvironment host,
-                                        IOptions<KNApplicationSettings> options)
-        {
-            _userManager = userManager;
-            _host = host;
-            _supportEmail = options.Value.AppAdmin.SupportEmail;
-        }
+        private readonly UserManager<User> _userManager = userManager;
+        private readonly IHostEnvironment _host = host;
+        private readonly string _supportEmail = options.Value.AppAdmin.SupportEmail;
 
         public async Task<Response<string>> HandleAsync(ChangePasswordCommand request, CancellationToken cancellationToken)
         {

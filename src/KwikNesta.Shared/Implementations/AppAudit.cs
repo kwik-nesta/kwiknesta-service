@@ -12,7 +12,8 @@ namespace KwikNesta.Shared.Implementations
                                 EAuditAction action,
                                 EAuditDomain domain,
                                 string domainId,
-                                string? ip)
+                                string? ip,
+                                string? desc = null)
         {
             BackgroundJob.Enqueue<IAppAuditService>(x =>
                                 x.WriteAsync(new CreateAuditNotification
@@ -22,7 +23,8 @@ namespace KwikNesta.Shared.Implementations
                                     Action = action,
                                     Domain = domain,
                                     DomainId = domainId,
-                                    IpAddress = ip
+                                    IpAddress = ip,
+                                    Description = desc
                                 }));
         }
     }

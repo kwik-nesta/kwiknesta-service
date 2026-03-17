@@ -1,5 +1,6 @@
 ﻿using KwikNesta.Shared.Models.Enumerations.Identity;
 using KwikNesta.Shared.ServiceCommands.Identity;
+using KwikNesta.Shared.ServiceDTOs.Identity;
 using KwikNestaIdentity.Application.Validations;
 using KwikNestaIdentity.Domain.Entities;
 
@@ -34,6 +35,21 @@ namespace KwikNestaIdentity.Application
                 PhoneNumber = ValidationHelper.NormalizeNumber(command.PhoneNumber),
                 UserName = command.Email,
                 Gender = command.Gender
+            };
+        }
+
+        public static CurrentUserDto Map(User user)
+        {
+            return new CurrentUserDto
+            {
+                Id = user.Id,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                MiddleName = user.OtherName,
+                Email = user.Email!,
+                PhoneNumber = user.PhoneNumber!,
+                Gender = user.Gender,
+                Status = user.Status
             };
         }
     }

@@ -12,5 +12,6 @@ namespace KwikNesta.Shared.ServiceNotifications.Infra
         public EAuditDomain Domain { get; set; }
         public string DomainId { get; set; } = default!;
         public string? IpAddress { get; set; }
+        public string? Description { get; set; }
     }
 }

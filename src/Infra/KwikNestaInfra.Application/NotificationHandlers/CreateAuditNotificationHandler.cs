@@ -44,7 +44,8 @@ namespace KwikNestaInfra.Application.NotificationHandlers
                 DomainId = notification.DomainId,
                 Domain = notification.Domain,
                 Action = notification.Action,
-                IpAddress = notification.IpAddress
+                IpAddress = notification.IpAddress,
+                Description = notification.Description
             });
 
             await _repository.SaveAsync();

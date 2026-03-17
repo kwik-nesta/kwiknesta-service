@@ -45,5 +45,14 @@
         public static readonly string AccountReactivationSuccessful = "Account reactivation successful. You can proceed to login.";
         public static readonly string AccountReactivationInformationSubject = "Your Account Has Been Reactivated";
         public static readonly string AccountReactivationInformationMessage = "Your account has been successfully reactivated. You can now sign in and continue using our services as usual.<br>If you experience any issues accessing your account, please contact our support team for assistance.";
+        public static readonly string UserAlreadySuspended = "User already suspended.";
+        public static readonly string AccountSuspended = "Account successfully suspended.";
+        public static readonly string SuspensionInformationSubject = "Your Account Has Been Suspended";
+        public static readonly string SuspensionInformationMessage = "Your account has been temporarily suspended. Reason - ({0}). As a result, you will not be able to access our services at this time.<br>If you believe this action was taken in error or would like more information, please contact our support team for assistance.<br>We appreciate your understanding.";
+        public static readonly string UserNotSuspended = "User account not suspended";
+        public static readonly string UserRestored = "User account successfully restored.";
+        public static readonly string AccountRestorationInformationSubject = "Your Account Has Been Restored";
+        public static readonly string AccountRestorationInformationMessage = "Good news — your account has been successfully restored. You can now access all features and services as usual.<br>If you have any questions or encounter any issues, please don’t hesitate to contact our support team.<br><br>Welcome back!";
+        public static readonly string UserDetailsUpdated = "User details successfully updated.";
     }
 }

@@ -8,9 +8,9 @@ namespace KwikNestaInfra.Application.Validators
         public CreateAuditNotificationValidator()
         {
             RuleFor(x => x.UserId)
-              .NotEmpty().WithMessage("UserId field is required.");
+              .NotEmpty().WithMessage("Id field is required.");
             RuleFor(x => x.DomainId)
-              .NotEmpty().WithMessage("UserId field is required.");
+              .NotEmpty().WithMessage("Id field is required.");
             RuleFor(x => x.UserName)
                .NotEmpty().WithMessage("User name field is required.")
                .EmailAddress().WithMessage("Please enter a valid email address.");

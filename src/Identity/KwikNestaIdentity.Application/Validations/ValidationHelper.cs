@@ -1,4 +1,5 @@
-﻿using System.Text.RegularExpressions;
+﻿using KwikNesta.Shared.Models.Enumerations.Identity;
+using System.Text.RegularExpressions;
 
 namespace KwikNestaIdentity.Application.Validations
 {
@@ -23,6 +24,16 @@ namespace KwikNestaIdentity.Application.Validations
         public static bool IsValidE164(string phone)
         {
             return IsValid(phone);
+        }
+
+        public static bool ValidSuspensionReason(SuspensionReasons reason, string? otherReason)
+        {
+            if(reason != SuspensionReasons.Other)
+            {
+                return true;
+            }
+
+            return !string.IsNullOrWhiteSpace(otherReason);
         }
 
         private static bool IsValid(string phoneNumber)

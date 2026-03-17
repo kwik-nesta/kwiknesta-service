@@ -11,6 +11,10 @@ namespace KwikNesta.Shared.Models.Enumerations.Infra
         [Description("Deactivated Account")]
         DeactivatedAccount,
         [Description("Suspended Account")]
-        SuspendedAccount
+        SuspendedAccount,
+        [Description("Restored Account")]
+        RestoredAccount,
+        [Description("Updated User Details")]
+        UpdatedUserDetails
     }
 }

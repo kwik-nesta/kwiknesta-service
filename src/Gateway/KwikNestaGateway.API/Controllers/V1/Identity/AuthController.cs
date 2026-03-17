@@ -61,6 +61,7 @@ namespace KwikNestaGateway.API.Controllers.V1.Identity
         /// <param name="command"></param>
         /// <returns></returns>
         [HttpPost("otp")]
+        [ProducesResponseType(typeof(Response<string>), 200)]
         public async Task<IActionResult> RequestOtp([FromBody] ResendOtpCommand command)
         {
             var result = await _mediator.SendAsync(command);
@@ -73,6 +74,7 @@ namespace KwikNestaGateway.API.Controllers.V1.Identity
         /// <param name="command"></param>
         /// <returns></returns>
         [HttpPatch("auth/token")]
+        [ProducesResponseType(typeof(Response<LoginResponseDto>), 200)]
         public async Task<IActionResult> RefreshToken([FromBody] RefreshTokenCommand command)
         {
             var result = await _mediator.SendAsync(command);
@@ -86,6 +88,7 @@ namespace KwikNestaGateway.API.Controllers.V1.Identity
         /// <returns></returns>
         [Authorize]
         [HttpPatch("password")]
+        [ProducesResponseType(typeof(Response<string>), 200)]
         public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordCommand command)
         {
             var userId = HttpContext.User.GetLoggedInUserId();
@@ -106,6 +109,7 @@ namespace KwikNestaGateway.API.Controllers.V1.Identity
         /// <param name="command"></param>
         /// <returns></returns>
         [HttpPatch("reset-password")]
+        [ProducesResponseType(typeof(Response<string>), 200)]
         public async Task<IActionResult> PasswordReset([FromBody] ResetPasswordCommand command)
         {
             var result = await _mediator.SendAsync(command);
@@ -118,6 +122,7 @@ namespace KwikNestaGateway.API.Controllers.V1.Identity
         /// <param name="command"></param>
         /// <returns></returns>
         [HttpPatch("forgot-password")]
+        [ProducesResponseType(typeof(Response<string>), 200)]
         public async Task<IActionResult> ChangeForgot([FromBody] ForgotPasswordCommand command)
         {
             var result = await _mediator.SendAsync(command);
@@ -131,6 +136,7 @@ namespace KwikNestaGateway.API.Controllers.V1.Identity
         /// <returns></returns>
         [Authorize]
         [HttpPut("deactivate/{userId}")]
+        [ProducesResponseType(typeof(Response<string>), 200)]
         public async Task<IActionResult> Deactivate([FromRoute] string userId)
         {
             var loggedInUserId = HttpContext.User.GetLoggedInUserId();
@@ -157,6 +163,7 @@ namespace KwikNestaGateway.API.Controllers.V1.Identity
         /// <param name="command"></param>
         /// <returns></returns>
         [HttpPatch("request-reactivation")]
+        [ProducesResponseType(typeof(Response<string>), 200)]
         public async Task<IActionResult> RequestReactivation([FromBody] AccountReactivationRequestCommand command)
         {
             var result = await _mediator.SendAsync(command);
@@ -169,11 +176,50 @@ namespace KwikNestaGateway.API.Controllers.V1.Identity
         /// <param name="command"></param>
         /// <returns></returns>
         [HttpPatch("reactivate")]
+        [ProducesResponseType(typeof(Response<string>), 200)]
         public async Task<IActionResult> Reactivate([FromBody] AccountReactivationCommand command)
         {
             var result = await _mediator.SendAsync(command);
             return Ok(result);
         }
 
+        /// <summary>
+        /// Restores account status after suspension
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        [Authorize(Roles = "Admin, SuperAdmin")]
+        [HttpPatch("admin/restore/{userId}")]
+        [ProducesResponseType(typeof(Response<string>), 200)]
+        public async Task<IActionResult> Restore([FromRoute] string userId)
+        {
+            return Ok(await _mediator.SendAsync(new AccountRestoreCommand
+            {
+                UserId = userId,
+                LoggedInUserId = HttpContext.User.GetLoggedInUserId()!,
+                LoggedInUserIpAddress = HttpContext.GetUserIp()
+            }));
+        }
+
+        /// <summary>
+        /// Suspends user account
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        [Authorize(Roles = "Admin, SuperAdmin")]
+        [HttpPatch("admin/suspend")]
+        [ProducesResponseType(typeof(Response<string>), 200)]
+        public async Task<IActionResult> Suspend([FromBody] AccountSuspensionRequest request)
+        {
+            var result = await _mediator.SendAsync(new AccountSuspensionCommand
+            {
+                UserId = request.UserId,
+                Reason = request.Reason,
+                OtherReason = request.OtherReason,
+                LoggedInUserId = HttpContext.User.GetLoggedInUserId()!,
+                LoggedInUserIpAddress = HttpContext.GetUserIp()
+            });
+            return Ok(result);
+        }
     }
 }
