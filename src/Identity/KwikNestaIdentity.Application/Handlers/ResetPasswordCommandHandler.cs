@@ -52,7 +52,12 @@ namespace KwikNestaIdentity.Application.Handlers
             var otpHash = TokenHelper.HashToken(otp, _jwtSettings.Key);
             var token = await _userManager.GeneratePasswordResetTokenAsync(user);
             var tokenHash = TokenHelper.Encrypt(token, _jwtSettings.Key);
-            var otpEntry = InitializeOtp(user.Id, otpHash, tokenHash);
+            var otpEntry = ObjectFactory.InitializeOtp(user.Id,
+                    otpHash,
+                    EOtpType.PasswordReset,
+                    tokenHash,
+                    OtpExpirationMinute);
+
             await _repository.OtpEntry.AddAsync(otpEntry);
             await _repository.SaveAsync();
 
@@ -64,18 +69,6 @@ namespace KwikNestaIdentity.Application.Handlers
                                         OtpExpirationMinute));
 
             return Response<string>.Ok(IdentityResponse.PasswordResetSuccessful);
-        }
-
-        private OtpEntry InitializeOtp(string userId, string otpHash, string tokenHash)
-        {
-            return new OtpEntry
-            {
-                UserId = userId,
-                OtpHash = otpHash,
-                TokenHash = tokenHash,
-                ExpiresAt = DateTime.UtcNow.AddMinutes(OtpExpirationMinute),
-                Type = EOtpType.PasswordReset
-            };
         }
     }
 }

@@ -30,7 +30,7 @@
         public static readonly string InvalidRefreshToken = "Invalid refresh token";
         public static readonly string UserInactive = "User is inactive. Please reactivate your account to continue or contact support for assistance.";
         public static readonly string ExpiredToken = "Invalid or expired token";
-        public static readonly string AccessDenied = "Access denied.";
+        public static readonly string AccessDenied = "Access denied!!! You're not authorized to perform this action.";
         public static readonly string PasswordChanged = "Password changed successfully. Please login with the new password";
         public static readonly string PasswordChangedFailed = "Password change failed. Please try again shortly.";
         public static readonly string PasswordResetSuccessful = "Password reset request successful. Please enter the OTP sent to your email to complete the process";
@@ -38,5 +38,12 @@
         public static readonly string ForgotPasswordInformationMessage = "This is a confirmation that your password has been successfully reset.<br>If you made this change, you can now sign in using your new password.<br>If you did not request this password reset, please contact our support team immediately so we can help secure your account.";
         public static readonly string ChangePasswordInformationSubject = "Your Password Was Changed";
         public static readonly string ChangePasswordInformationMessage = "This is a confirmation that the password for your account has been successfully changed.<br>If you made this change, no further action is required.<br>If you did not change your password, please reset your password immediately and contact our support team so we can help secure your account.";
+        public static readonly string AccountDeactivationSuccessful = "Account deactivated successfully";
+        public static readonly string AccountDeactivationSubject = "Your Account Has Been Deactivated";
+        public static readonly string AccountDeactivationMessage = "Your account has been deactivated and you will no longer be able to access our services.<br>If you believe this was done in error or would like to request reactivation, please contact our support team for assistance.<br>Thank you for your understanding.";
+        public static readonly string AccountReactivationRequestSuccessful = "Account reactivation request successful. Please use the OTP sent to your email to complete the process.";
+        public static readonly string AccountReactivationSuccessful = "Account reactivation successful. You can proceed to login.";
+        public static readonly string AccountReactivationInformationSubject = "Your Account Has Been Reactivated";
+        public static readonly string AccountReactivationInformationMessage = "Your account has been successfully reactivated. You can now sign in and continue using our services as usual.<br>If you experience any issues accessing your account, please contact our support team for assistance.";
     }
 }

@@ -12,6 +12,7 @@ using KwikNesta.Shared.Extensions;
 using KwikNesta.Shared.Constants;
 using KwikNesta.Shared.ServiceCommands.Identity;
 using KwikNesta.Shared.Models.Enumerations.Identity;
+using Microsoft.EntityFrameworkCore;
 
 namespace KwikNestaIdentity.Application.Handlers
 {
@@ -51,9 +52,11 @@ namespace KwikNestaIdentity.Application.Handlers
 
             var hash = TokenHelper.HashToken(request.Otp, _jwtSettings.Key);
             var otpEntry = await _repository.OtpEntry
-                .FirstOrDefault(o => o.UserId.Equals(user.Id) &&
+                .Get(o => o.UserId.Equals(user.Id) &&
                                     o.Type == EOtpType.AccountVerification &&
-                                    o.OtpHash.Equals(hash));
+                                    o.OtpHash.Equals(hash))
+                .OrderByDescending(o => o.CreatedOn)
+                .FirstOrDefaultAsync(cancellationToken);
 
             if (otpEntry == null)
             {

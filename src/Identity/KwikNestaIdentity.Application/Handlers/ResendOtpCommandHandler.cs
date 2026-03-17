@@ -64,7 +64,18 @@ namespace KwikNestaIdentity.Application.Handlers
 
             var otp = TokenHelper.GenerateOtp(8);
             var otpHash = TokenHelper.HashToken(otp, _jwtSettings.Key);
-            var otpEntry = InitializeOtp(user.Id, otpHash, request.Type);
+            string? tokenHash = null;
+            if(request.Type == EOtpType.PasswordReset)
+            {
+                var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+                tokenHash = TokenHelper.Encrypt(token, _jwtSettings.Key);
+            }
+
+            var otpEntry = ObjectFactory.InitializeOtp(user.Id,
+                    otpHash,
+                    request.Type,
+                    tokenHash,
+                    OtpExpirationMinute);
             await _repository.OtpEntry.AddAsync(otpEntry);
 
             await _repository.SaveAsync();
@@ -77,17 +88,6 @@ namespace KwikNestaIdentity.Application.Handlers
                                         securityMessage,
                                         OtpExpirationMinute));
             return Response<string>.Ok(IdentityResponse.ActivationOtpSent);
-        }
-
-        private OtpEntry InitializeOtp(string userId, string otpHash, EOtpType type)
-        {
-            return new OtpEntry
-            {
-                UserId = userId,
-                OtpHash = otpHash,
-                ExpiresAt = DateTime.UtcNow.AddMinutes(OtpExpirationMinute),
-                Type = type
-            };
         }
 
         private (string subject,  string body, string securityMessage) GetMessageDetails(EOtpType type)

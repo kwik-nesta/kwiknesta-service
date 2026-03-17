@@ -6,7 +6,7 @@ using KwikNesta.Shared.ServiceQueries.Infra;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace KwikNestaGateway.API.Controllers.V1
+namespace KwikNestaGateway.API.Controllers.V1.Infra
 {
     [Route("api/v{version:apiversion}/infra")]
     [ApiVersion("1.0")]
@@ -27,7 +27,7 @@ namespace KwikNestaGateway.API.Controllers.V1
         [Authorize]
         [HttpGet("audit/{entityId}")]
         [ProducesResponseType(typeof(PagedResponse<AuditLogResponseDto>), 200)]
-        public async Task<IActionResult> GetPaged([FromRoute] string entityId, 
+        public async Task<IActionResult> GetPaged([FromRoute] string entityId,
                                                 [FromQuery] AuditLogClientQuery query)
         {
             return Ok(await _mediator.SendAsync(new AuditLogQuery

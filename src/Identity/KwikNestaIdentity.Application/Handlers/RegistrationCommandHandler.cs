@@ -56,7 +56,7 @@ namespace KwikNestaIdentity.Application.Handlers
                 return Response<RegistrationDto>.Fail(IdentityResponse.UserExists, 409);
             }
 
-            var user = InitializeUser(request);
+            var user = ObjectFactory.InitializeUser(request);
             var createResult = await _userManager.CreateAsync(user, request.Password);
             if (!createResult.Succeeded)
             {
@@ -74,7 +74,11 @@ namespace KwikNestaIdentity.Application.Handlers
 
             var otp = TokenHelper.GenerateOtp(8);
             var otpHash = TokenHelper.HashToken(otp, _jwtSettings.Key);
-            var otpEntry = InitializeOtp(user.Id, otpHash);
+            var otpEntry = ObjectFactory.InitializeOtp(user.Id,
+                    otpHash,
+                    EOtpType.AccountVerification,
+                    expirationMinutes: OtpExpirationMinute);
+
             await _repository.OtpEntry.AddAsync(otpEntry);
             await _repository.SaveAsync();
 
@@ -85,31 +89,6 @@ namespace KwikNestaIdentity.Application.Handlers
                                         IdentityResponse.AccountActivationSecurityNotice, 
                                         OtpExpirationMinute));
             return Response<RegistrationDto>.Ok(new RegistrationDto(user.Email!));
-        }
-
-        private User InitializeUser(RegistrationCommand command)
-        {
-            return new User
-            {
-                FirstName = command.FirstName,
-                LastName = command.LastName,
-                OtherName = command.MiddleName,
-                Email = command.Email,
-                PhoneNumber = ValidationHelper.NormalizeNumber(command.PhoneNumber),
-                UserName = command.Email,
-                Gender = command.Gender
-            };
-        }
-
-        private OtpEntry InitializeOtp(string userId, string otpHash)
-        {
-            return new OtpEntry 
-            {
-                UserId = userId,
-                OtpHash = otpHash,
-                ExpiresAt = DateTime.UtcNow.AddMinutes(OtpExpirationMinute),
-                Type = EOtpType.AccountVerification
-            };
         }
     }
 }

@@ -16,11 +16,11 @@ using Microsoft.Extensions.Options;
 
 namespace KwikNestaIdentity.Application.Handlers
 {
-    public class ForgotPasswordCommandHandler(UserManager<User> userManager,
+    public class AccountReactivationCommandHandler(UserManager<User> userManager,
                                     IIdentityRepositoryManager repository,
                                     IHostEnvironment host,
                                     IOptions<KNApplicationSettings> options) 
-        : IKNRequestHandler<ForgotPasswordCommand, Response<string>>
+        : IKNRequestHandler<AccountReactivationCommand, Response<string>>
     {
         private readonly UserManager<User> _userManager = userManager;
         private readonly IIdentityRepositoryManager _repository = repository;
@@ -28,16 +28,16 @@ namespace KwikNestaIdentity.Application.Handlers
         private readonly JwtSettings _jwtSettings = options.Value.Jwt;
         private readonly string _supportEmail = options.Value.AppAdmin.SupportEmail;
 
-        public async Task<Response<string>> HandleAsync(ForgotPasswordCommand request, CancellationToken cancellationToken)
+        public async Task<Response<string>> HandleAsync(AccountReactivationCommand request, CancellationToken cancellationToken)
         {
-            var validator = new ForgotPasswordCommandValidator().Validate(request);
+            var validator = new AccountReactivationCommandValidator().Validate(request);
             if (!validator.IsValid)
             {
                 return Response<string>.Fail(validator.Errors.FirstOrDefault()?.ErrorMessage ?? IdentityResponse.InvalidRequest, 400);
             }
 
             var user = await _userManager.FindByEmailAsync(request.Email);
-            if(user == null)
+            if (user == null)
             {
                 return Response<string>.Fail(IdentityResponse.UserNotFoundWithEmail, 404);
             }
@@ -45,12 +45,12 @@ namespace KwikNestaIdentity.Application.Handlers
             var hash = TokenHelper.HashToken(request.Otp, _jwtSettings.Key);
             var otpEntry = await _repository.OtpEntry
                 .Get(o => o.UserId.Equals(user.Id) &&
-                                    o.Type == EOtpType.PasswordReset &&
+                                    o.Type == EOtpType.AccountReactivation &&
                                     o.OtpHash.Equals(hash))
                 .OrderByDescending(o => o.CreatedOn)
                 .FirstOrDefaultAsync(cancellationToken);
 
-            if (otpEntry == null || string.IsNullOrWhiteSpace(otpEntry.TokenHash))
+            if (otpEntry == null)
             {
                 return Response<string>.Fail(IdentityResponse.InvalidOtp, 404);
             }
@@ -60,25 +60,19 @@ namespace KwikNestaIdentity.Application.Handlers
                 return Response<string>.Fail(IdentityResponse.OtpExpired, 403);
             }
 
-            var token = TokenHelper.Decrypt(otpEntry.TokenHash, _jwtSettings.Key);
-            var result = await _userManager
-                .ResetPasswordAsync(user, Uri.UnescapeDataString(token), request.NewPassword);
-            if (!result.Succeeded)
-            {
-                return Response<string>.Fail(result.Errors.FirstOrDefault()?.Description ?? 
-                    IdentityResponse.PasswordChangedFailed, 403);
-            }
-
             user.LastUpdatedOn = DateTime.UtcNow;
+            user.Status = EUserStatus.Active;
+            user.StatusChangedAt = DateTime.UtcNow;
             await _userManager.UpdateAsync(user);
+
+            Notifications.SendEmail(user.Email!, IdentityResponse.AccountReactivationInformationSubject,
+                _host.GetInformationalNotification(user.FirstName,
+                                        IdentityResponse.AccountReactivationInformationMessage,
+                                        _supportEmail));
+
             _repository.OtpEntry.Remove(otpEntry);
             await _repository.SaveAsync();
-
-            Notifications.SendEmail(user.Email!, IdentityResponse.ForgotPasswordInformationSubject,
-                _host.GetInformationalNotification(user.FirstName,
-                                        IdentityResponse.ForgotPasswordInformationMessage,
-                                        _supportEmail));
-            return Response<string>.Ok(IdentityResponse.PasswordChanged);
+            return Response<string>.Ok(IdentityResponse.AccountReactivationSuccessful);
         }
     }
 }

@@ -28,6 +28,7 @@ namespace KwikNestaGateway.API.Extensions
             app.UseHttpsRedirection();
 
             app.UseAuthentication();
+            app.UseMiddleware<ActiveUserMiddleware>();
             app.UseAuthorization();
 
             app.AddUseHangfireDashboard(config);
