@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace KwikNestaInfra.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(InfraServiceDbContext))]
-    [Migration("20260309134502_CreateForAuditLogs")]
-    partial class CreateForAuditLogs
+    [Migration("20260318073616_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -39,6 +39,9 @@ namespace KwikNestaInfra.Infrastructure.Data.Migrations
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<string>("Description")
+                        .HasColumnType("text");
+
                     b.Property<string>("Domain")
                         .IsRequired()
                         .HasColumnType("text");
@@ -56,7 +59,7 @@ namespace KwikNestaInfra.Infrastructure.Data.Migrations
                     b.Property<DateTime?>("LastUpdatedOn")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<string>("Id")
+                    b.Property<string>("UserId")
                         .IsRequired()
                         .HasColumnType("text");
 

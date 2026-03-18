@@ -56,7 +56,7 @@ namespace KwikNestaInfra.Infrastructure.Data.Migrations
                     b.Property<DateTime?>("LastUpdatedOn")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<string>("Id")
+                    b.Property<string>("UserId")
                         .IsRequired()
                         .HasColumnType("text");
 

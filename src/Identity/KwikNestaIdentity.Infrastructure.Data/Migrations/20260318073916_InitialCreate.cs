@@ -268,13 +268,13 @@ namespace KwikNestaIdentity.Infrastructure.Data.Migrations
                 name: "IX_AspNetUserClaims_UserId",
                 schema: "kn-identity-svc",
                 table: "AspNetUserClaims",
-                column: "Id");
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetUserLogins_UserId",
                 schema: "kn-identity-svc",
                 table: "AspNetUserLogins",
-                column: "Id");
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetUserRoles_RoleId",
@@ -306,7 +306,7 @@ namespace KwikNestaIdentity.Infrastructure.Data.Migrations
                 name: "IX_OtpEntries_UserId_Type",
                 schema: "kn-identity-svc",
                 table: "OtpEntries",
-                columns: new[] { "Id", "Type" });
+                columns: new[] { "UserId", "Type" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_RefreshTokens_TokenHash",
@@ -319,7 +319,7 @@ namespace KwikNestaIdentity.Infrastructure.Data.Migrations
                 name: "IX_RefreshTokens_UserId",
                 schema: "kn-identity-svc",
                 table: "RefreshTokens",
-                column: "Id");
+                column: "UserId");
         }
 
         /// <inheritdoc />

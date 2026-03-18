@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace KwikNestaIdentity.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(IdentityServiceDbContext))]
-    [Migration("20260225233004_InitialCreate")]
+    [Migration("20260318073916_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -58,13 +58,13 @@ namespace KwikNestaIdentity.Infrastructure.Data.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("Id")
+                    b.Property<string>("UserId")
                         .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Id", "Type");
+                    b.HasIndex("UserId", "Type");
 
                     b.ToTable("OtpEntries", "kn-identity-svc");
                 });
@@ -94,7 +94,7 @@ namespace KwikNestaIdentity.Infrastructure.Data.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("Id")
+                    b.Property<string>("UserId")
                         .IsRequired()
                         .HasColumnType("text");
 
@@ -103,7 +103,7 @@ namespace KwikNestaIdentity.Infrastructure.Data.Migrations
                     b.HasIndex("TokenHash")
                         .IsUnique();
 
-                    b.HasIndex("Id");
+                    b.HasIndex("UserId");
 
                     b.ToTable("RefreshTokens", "kn-identity-svc");
                 });
@@ -313,13 +313,13 @@ namespace KwikNestaIdentity.Infrastructure.Data.Migrations
                     b.Property<string>("ClaimValue")
                         .HasColumnType("text");
 
-                    b.Property<string>("Id")
+                    b.Property<string>("UserId")
                         .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Id");
+                    b.HasIndex("UserId");
 
                     b.ToTable("AspNetUserClaims", "kn-identity-svc");
                 });
@@ -335,26 +335,26 @@ namespace KwikNestaIdentity.Infrastructure.Data.Migrations
                     b.Property<string>("ProviderDisplayName")
                         .HasColumnType("text");
 
-                    b.Property<string>("Id")
+                    b.Property<string>("UserId")
                         .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("LoginProvider", "ProviderKey");
 
-                    b.HasIndex("Id");
+                    b.HasIndex("UserId");
 
                     b.ToTable("AspNetUserLogins", "kn-identity-svc");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
                 {
-                    b.Property<string>("Id")
+                    b.Property<string>("UserId")
                         .HasColumnType("text");
 
                     b.Property<string>("RoleId")
                         .HasColumnType("text");
 
-                    b.HasKey("Id", "RoleId");
+                    b.HasKey("UserId", "RoleId");
 
                     b.HasIndex("RoleId");
 
@@ -363,7 +363,7 @@ namespace KwikNestaIdentity.Infrastructure.Data.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.Property<string>("Id")
+                    b.Property<string>("UserId")
                         .HasColumnType("text");
 
                     b.Property<string>("LoginProvider")
@@ -375,7 +375,7 @@ namespace KwikNestaIdentity.Infrastructure.Data.Migrations
                     b.Property<string>("Value")
                         .HasColumnType("text");
 
-                    b.HasKey("Id", "LoginProvider", "Name");
+                    b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens", "kn-identity-svc");
                 });
@@ -384,7 +384,7 @@ namespace KwikNestaIdentity.Infrastructure.Data.Migrations
                 {
                     b.HasOne("KwikNestaIdentity.Domain.Entities.User", "User")
                         .WithMany()
-                        .HasForeignKey("Id")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -395,7 +395,7 @@ namespace KwikNestaIdentity.Infrastructure.Data.Migrations
                 {
                     b.HasOne("KwikNestaIdentity.Domain.Entities.User", "User")
                         .WithMany()
-                        .HasForeignKey("Id")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -415,7 +415,7 @@ namespace KwikNestaIdentity.Infrastructure.Data.Migrations
                 {
                     b.HasOne("KwikNestaIdentity.Domain.Entities.User", null)
                         .WithMany()
-                        .HasForeignKey("Id")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -424,7 +424,7 @@ namespace KwikNestaIdentity.Infrastructure.Data.Migrations
                 {
                     b.HasOne("KwikNestaIdentity.Domain.Entities.User", null)
                         .WithMany()
-                        .HasForeignKey("Id")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -439,7 +439,7 @@ namespace KwikNestaIdentity.Infrastructure.Data.Migrations
 
                     b.HasOne("KwikNestaIdentity.Domain.Entities.User", null)
                         .WithMany()
-                        .HasForeignKey("Id")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -448,7 +448,7 @@ namespace KwikNestaIdentity.Infrastructure.Data.Migrations
                 {
                     b.HasOne("KwikNestaIdentity.Domain.Entities.User", null)
                         .WithMany()
-                        .HasForeignKey("Id")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

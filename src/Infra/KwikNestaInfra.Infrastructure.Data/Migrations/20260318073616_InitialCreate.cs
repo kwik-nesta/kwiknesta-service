@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace KwikNestaInfra.Infrastructure.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class CreateForAuditLogs : Migration
+    public partial class InitialCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -26,6 +26,7 @@ namespace KwikNestaInfra.Infrastructure.Data.Migrations
                     Domain = table.Column<string>(type: "text", nullable: false),
                     DomainId = table.Column<string>(type: "text", nullable: false),
                     IpAddress = table.Column<string>(type: "text", nullable: true),
+                    Description = table.Column<string>(type: "text", nullable: true),
                     IsDeprecated = table.Column<bool>(type: "boolean", nullable: false),
                     CreatedOn = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     LastUpdatedOn = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
