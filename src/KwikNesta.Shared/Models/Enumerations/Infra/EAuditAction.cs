@@ -15,6 +15,11 @@ namespace KwikNesta.Shared.Models.Enumerations.Infra
         [Description("Restored Account")]
         RestoredAccount,
         [Description("Updated User Details")]
-        UpdatedUserDetails
+        UpdatedUserDetails = 1000,
+
+        [Description("Migrated Location Data")]
+        MigratedLocationData,
+        [Description("Toggled Location Active Status")]
+        LocationToggle
     }
 }

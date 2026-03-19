@@ -18,6 +18,11 @@ namespace KwikNesta.Shared.Implementations
             await _context.Set<TEntity>().AddAsync(entity);
         }
 
+        public async Task AddRangeAsync(List<TEntity> entities)
+        {
+            await _context.Set<TEntity>().AddRangeAsync(entities);
+        }
+
         public async Task<bool> ExistsAsync(Expression<Func<TEntity, bool>> predicate)
         {
             return await _context.Set<TEntity>().AnyAsync(predicate);

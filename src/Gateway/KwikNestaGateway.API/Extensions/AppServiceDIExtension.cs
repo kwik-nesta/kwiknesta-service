@@ -19,6 +19,7 @@ using System.Reflection;
 using KwikNestaInfra.Infrastructure;
 using System.Text;
 using KwikNestaInfra.Application;
+using KwikNesta.Mediator.Hangfire.Extensions;
 
 namespace KwikNestaGateway.API.Extensions
 {
@@ -82,7 +83,8 @@ namespace KwikNestaGateway.API.Extensions
                     typeof(IdentityAppAssemblyMarker).Assembly, 
                     typeof(InfraAppAssemblyMarker).Assembly)
                 .AddTransient(typeof(IKNPipelineBehavior<,>), typeof(LoggingBehavior<,>))
-                .AddTransient(typeof(IKNNotificationBehavior<>), typeof(NotificationLoggingBehavior<>));
+                .AddTransient(typeof(IKNNotificationBehavior<>), typeof(NotificationLoggingBehavior<>))
+                .ConfigureKNBackgroundMediators();
         }
 
         private static IServiceCollection ConfigureController(this IServiceCollection services)

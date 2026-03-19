@@ -15,4 +15,10 @@ namespace KwikNesta.Shared.ServiceQueries.Infra
     {
         public EAuditAction? Action { get; set; }
     }
+
+    public class AdminAuditLogClientQuery : BasePageQuery, IKNRequest<PagedResponse<AuditLogResponseDto>>
+    {
+        public string? Search { get; set; }
+        public EAuditAction? Action { get; set; }
+    }
 }
