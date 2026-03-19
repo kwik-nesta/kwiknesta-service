@@ -118,7 +118,6 @@ namespace KwikNestaInfra.Application.NotificationHandlers
                 }
             }
 
-            var endTime = DateTime.UtcNow;
             AppAudit.Write(notification.LoggedInUserId, 
                 notification.LoggedInUserEmail, 
                 EAuditAction.MigratedLocationData, 
@@ -132,8 +131,8 @@ namespace KwikNestaInfra.Application.NotificationHandlers
                                     string.Format(InfraResponses.LocationDataloadCompletedMessage,
                                         _host.EnvironmentName,
                                         notification.LoggedInUserIpAddress,
-                                        startTime.ToString("MMM dd, yyyy. hh:mm:ss z"),
-                                        endTime.ToString("MMM dd, yyyy. hh:mm:ss z")),
+                                        startTime.FormatDate(),
+                                        startTime.FormatDureation(DateTime.UtcNow)),
                                     _supportEmail));
 
             _logger.LogInformation("===[MigrateCsDataNotificationHandler] Migration Completed===");
