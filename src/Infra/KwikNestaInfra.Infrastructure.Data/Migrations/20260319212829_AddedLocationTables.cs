@@ -185,8 +185,7 @@ namespace KwikNestaInfra.Infrastructure.Data.Migrations
                 name: "IX_Countries_ISO2",
                 schema: "kn-infra-svc",
                 table: "Countries",
-                column: "ISO2",
-                unique: true);
+                column: "ISO2");
 
             migrationBuilder.CreateIndex(
                 name: "IX_States_CountryId",

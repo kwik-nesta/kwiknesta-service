@@ -60,6 +60,18 @@ namespace KwikNestaInfra.Application.NotificationHandlers
                     await _repository.SaveAsync();
                 }
 
+                var existingState = await _repository.State.FirstOrDefault(s => s.CountryCode == country.ISO2);
+                if (existingState != null)
+                {
+                    var citiesExist = await _repository.City.ExistsAsync(c => c.CountryId == existingState.CountryId);
+                    if (citiesExist)
+                    {
+                        _logger.LogWarning($"===[MigrateCsDataNotificationHandler] {country.Name} already exists in the DB.===");
+                        continue;
+                    }
+                }
+
+                _logger.LogInformation($"===[MigrateCsDataNotificationHandler] Fetching states for {country.Name}.===");
                 var (States, StateSuccess) = await _csApiService.GetStatesAsync(country.ISO2);
                 if (!StateSuccess)
                 {
@@ -67,42 +79,42 @@ namespace KwikNestaInfra.Application.NotificationHandlers
                     continue;
                 }
                 
+                var statesToAdd = new List<KNState>();
+                var citiesToAdd = new List<KNCity>();
                 foreach(var state in States)
                 {
                     _logger.LogInformation($"===[MigrateCsDataNotificationHandler] Migrating {state.Name}, {country.Name}===");
 
-                    var stateToAdd = await _repository.State
-                        .FirstOrDefault(s => s.ISO2 == state.ISO2 && s.CountryId == countryToAdd.Id);
-                    if(stateToAdd == null)
+                    var stateRequest = await _csApiService.GetStateAsync(country.ISO2, state.ISO2);
+                    if (!stateRequest.Success || stateRequest.State == null)
                     {
-                        var stateRequest = await _csApiService.GetStateAsync(country.ISO2, state.ISO2);
-                        if (!stateRequest.Success || stateRequest.State == null)
-                        {
-                            _logger.LogWarning($"===[MigrateCsDataNotificationHandler] Fetching state, {state.Name}, {country.Name}, failed.===");
-                            continue;
-                        }
-
-                        stateToAdd = ObjectFactory.Map(countryToAdd.Id, stateRequest.State);
-                        await _repository .State.AddAsync(stateToAdd);
-                        await _repository.SaveAsync();
+                        _logger.LogWarning($"===[MigrateCsDataNotificationHandler] Fetching state, {state.Name}, {country.Name}, failed.===");
+                        continue;
                     }
 
-                    var citiesExist = await _repository.City.ExistsAsync(c => c.StateId == stateToAdd.Id);
-                    if (!citiesExist)
+                    var stateToAdd = ObjectFactory.Map(countryToAdd.Id, stateRequest.State);
+                    statesToAdd.Add(stateToAdd);
+                    var (Cities, CitySuccess) = await _csApiService.GetCitiesAsync(country.ISO2, state.ISO2);
+                    if (!CitySuccess)
                     {
-                        var (Cities, CitySuccess) = await _csApiService.GetCitiesAsync(country.ISO2, state.ISO2);
-                        if (!CitySuccess)
-                        {
-                            _logger.LogWarning($"===[MigrateCsDataNotificationHandler] Fetching cities for {state.Name}, {country.Name} failed.===");
-                            continue;
-                        }
-
-                        var citiesToAdd = ObjectFactory.Map(stateToAdd.Id, countryToAdd.Id, Cities);
-                        await _repository.City.AddRangeAsync(citiesToAdd);
-                        await _repository.SaveAsync(); 
+                        _logger.LogWarning($"===[MigrateCsDataNotificationHandler] Fetching cities for {state.Name}, {country.Name} failed.===");
+                        continue;
                     }
 
+                    citiesToAdd.AddRange(ObjectFactory.Map(stateToAdd.Id, countryToAdd.Id, Cities));
                     _logger.LogInformation($"===[MigrateCsDataNotificationHandler] Migrated {state.Name}, {country.Name}===");
+                }
+
+                if (statesToAdd.Count > 0)
+                {
+                    await _repository.State.AddRangeAsync(statesToAdd);
+                    if (citiesToAdd.Count > 0)
+                    {
+                        await _repository.City.AddRangeAsync(citiesToAdd);
+                    }
+
+                    await _repository.SaveAsync();
+                    _logger.LogInformation($"===[MigrateCsDataNotificationHandler] Migrated data for {country.Name}===");
                 }
             }
 
