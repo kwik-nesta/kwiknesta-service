@@ -12,5 +12,6 @@ namespace KwikNesta.Shared.Contracts
         Task<TEntity?> FirstOrDefault(Expression<Func<TEntity, bool>> predicate, bool track = false);
         IQueryable<TEntity> Get(Expression<Func<TEntity, bool>> predicate);
         void RemoveMany(IEnumerable<TEntity> entities);
+        Task AddRangeAsync(List<TEntity> entities);
     }
 }

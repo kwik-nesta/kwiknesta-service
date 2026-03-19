@@ -1,6 +1,9 @@
 ﻿using KwikNesta.Shared.Contracts;
 using KwikNesta.Shared.Implementations;
+using KwikNesta.Shared.Models.Settings;
+using KwikNestaInfra.Infrastructure.Contracts;
 using KwikNestaInfra.Infrastructure.Data;
+using KwikNestaInfra.Infrastructure.External;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -21,7 +24,9 @@ namespace KwikNestaInfra.Infrastructure
                 options.UseNpgsql(connectionString));
 
             return services.AddScoped<IInfraRepositoryManager, InfraRepositoryManager>()
-                .AddScoped<IAppAuditService, AppAuditService>();
+                .AddScoped<IAppAuditService, AppAuditService>()
+                .AddScoped<ICsApiService, CsApiService>()
+                .ConfigureHttpClients(configuration);
         }
 
         public static WebApplication RunInfraServiceMigrations(this WebApplication app)
@@ -34,6 +39,21 @@ namespace KwikNestaInfra.Infrastructure
             }
 
             return app;
+        }
+
+        private static IServiceCollection ConfigureHttpClients(this IServiceCollection services, 
+                                                            IConfiguration configuration)
+        {
+            var setting = configuration.GetSection("CsApi").Get<CsApiSettings>() ?? 
+                throw new ArgumentNullException(nameof(CsApiSettings));
+
+            services.AddHttpClient("CsApi", client =>
+            {
+                client.BaseAddress = new Uri(setting.BaseUrl);
+                client.DefaultRequestHeaders.Add("X-CSCAPI-KEY", setting.ApiKey);
+            });
+
+            return services;
         }
     }
 }

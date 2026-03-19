@@ -8,24 +8,19 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace KwikNestaGateway.API.Controllers.V1.Infra
 {
-    [Route("api/v{version:apiversion}/infra")]
+    [Route("api/v{version:apiversion}/infra/audit")]
     [ApiVersion("1.0")]
     [ApiController]
-    public class InfraController : ControllerBase
+    public class AuditController(IKNMediator mediator) : ControllerBase
     {
-        private readonly IKNMediator _mediator;
-
-        public InfraController(IKNMediator mediator)
-        {
-            _mediator = mediator;
-        }
+        private readonly IKNMediator _mediator = mediator;
 
         /// <summary>
         /// Get audit logs
         /// </summary>
         /// <returns></returns>
         [Authorize]
-        [HttpGet("audit/{entityId}")]
+        [HttpGet("{entityId}")]
         [ProducesResponseType(typeof(PagedResponse<AuditLogResponseDto>), 200)]
         public async Task<IActionResult> GetPaged([FromRoute] string entityId,
                                                 [FromQuery] AuditLogClientQuery query)
@@ -37,6 +32,18 @@ namespace KwikNestaGateway.API.Controllers.V1.Infra
                 Action = query.Action,
                 DomainId = entityId
             }));
+        }
+
+        /// <summary>
+        /// Get system audit logs
+        /// </summary>
+        /// <returns></returns>
+        [Authorize(Roles = "Admin, SuperAdmin")]
+        [HttpGet("system")]
+        [ProducesResponseType(typeof(PagedResponse<AuditLogResponseDto>), 200)]
+        public async Task<IActionResult> GetAdminPaged([FromQuery] AdminAuditLogClientQuery query)
+        {
+            return Ok(await _mediator.SendAsync(query));
         }
     }
 }

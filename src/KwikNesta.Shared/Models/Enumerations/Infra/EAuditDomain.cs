@@ -7,6 +7,10 @@ namespace KwikNesta.Shared.Models.Enumerations.Infra
         [Description("User")]
         User,
         [Description("User Account")]
-        UserAccount
+        UserAccount,
+        [Description("System Admin.")]
+        SystemAdmin,
+        [Description("Location")]
+        Location
     }
 }

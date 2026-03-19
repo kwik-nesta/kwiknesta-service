@@ -81,7 +81,7 @@ namespace KwikNestaGateway.API.Extensions
             app.UseHangfireDashboard("/admin/jobs", new DashboardOptions
             {
                 Authorization = new[] { new HangfireAuthFilter(userName, pass) },
-                DashboardTitle = "ChatTap API",
+                DashboardTitle = "Kwik Nesta API",
                 DisplayStorageConnectionString = false,
                 DisplayNameFunc = (_, job) => job.Method.Name,
             });
