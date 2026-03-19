@@ -118,6 +118,7 @@ namespace KwikNestaInfra.Application.NotificationHandlers
                                 InfraResponses.LocationDataloadCompletedSubject,
                                 _host.GetInformationalNotification("Admin",
                                     string.Format(InfraResponses.LocationDataloadCompletedMessage,
+                                        _host.EnvironmentName,
                                         notification.LoggedInUserIpAddress,
                                         startTime.ToString("MMM dd, yyyy. hh:mm:ss z"),
                                         endTime.ToString("MMM dd, yyyy. hh:mm:ss z")),
