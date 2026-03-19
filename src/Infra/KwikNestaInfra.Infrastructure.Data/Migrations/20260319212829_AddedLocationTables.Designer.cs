@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace KwikNestaInfra.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(InfraServiceDbContext))]
-    [Migration("20260319181252_AddedLocationTables")]
+    [Migration("20260319212829_AddedLocationTables")]
     partial class AddedLocationTables
     {
         /// <inheritdoc />
@@ -216,8 +216,7 @@ namespace KwikNestaInfra.Infrastructure.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ISO2")
-                        .IsUnique();
+                    b.HasIndex("ISO2");
 
                     b.ToTable("Countries", "kn-infra-svc");
                 });
