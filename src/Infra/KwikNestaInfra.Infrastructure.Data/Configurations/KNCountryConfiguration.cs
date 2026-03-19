@@ -20,8 +20,7 @@ namespace KwikNestaInfra.Infrastructure.Data.Configurations
                 .IsRequired();
             builder.Property(u => u.Nationality)
                 .IsRequired();
-            builder.HasIndex(x => x.ISO2)
-                .IsUnique();
+            builder.HasIndex(x => x.ISO2);
         }
     }
 }
