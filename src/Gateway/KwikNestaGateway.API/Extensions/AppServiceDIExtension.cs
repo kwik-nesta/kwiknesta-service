@@ -239,7 +239,8 @@ namespace KwikNestaGateway.API.Extensions
         private static IServiceCollection AddOtherServices(this IServiceCollection services)
         {
             return services.AddScoped<INotificationService, NotificationService>()
-                .AddScoped<IIdentityRepositoryManager, IdentityRepositoryManager>();
+                .AddScoped<IIdentityRepositoryManager, IdentityRepositoryManager>()
+                .AddScoped<IUploadService, UploadService>();
         }
     }
 }
