@@ -12,25 +12,19 @@ using System.Text.Json.Serialization;
 
 namespace KwikNesta.Shared.Implementations
 {
-    public class NotificationService : INotificationService
+    public class NotificationService(HttpClient httpClient,
+                            ILogger<NotificationService> logger,
+                            IOptions<KNApplicationSettings> options) 
+        : INotificationService
     {
-        private readonly HttpClient _httpClient;
-        private readonly ILogger<NotificationService> _logger;
-        private readonly ResendSettings _resendSettings;
+        private readonly HttpClient _httpClient = httpClient;
+        private readonly ILogger<NotificationService> _logger = logger;
+        private readonly ResendSettings _resendSettings = options.Value.Resend;
         private readonly JsonSerializerOptions camelCaseOptions = new JsonSerializerOptions
         {
             PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
             DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
         };
-
-        public NotificationService(HttpClient httpClient,
-                                ILogger<NotificationService> logger,
-                                IOptions<KNApplicationSettings> options)
-        {
-            _httpClient = httpClient;
-            _logger = logger;
-            _resendSettings = options.Value.Resend;
-        }
 
         /// <summary>
         /// Send email without attachment

@@ -30,6 +30,7 @@
     <ProjectReference Include="..\..\Infra\KwikNestaInfra.Infrastructure\KwikNestaInfra.Infrastructure.csproj" />
     <ProjectReference Include="..\..\KwikNesta.Mediator\KwikNesta.Mediator.csproj" />
     <ProjectReference Include="..\..\KwikNesta.Shared\KwikNesta.Shared.csproj" />
+    <ProjectReference Include="..\..\Properties\KwikNestaProperty.Infrastructure\KwikNestaProperty.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

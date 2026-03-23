@@ -20,6 +20,7 @@ using KwikNestaInfra.Infrastructure;
 using System.Text;
 using KwikNestaInfra.Application;
 using KwikNesta.Mediator.Hangfire.Extensions;
+using KwikNestaProperty.Infrastructure;
 
 namespace KwikNestaGateway.API.Extensions
 {
@@ -197,8 +198,9 @@ namespace KwikNestaGateway.API.Extensions
         private static IServiceCollection ConfigureDbContexts(this IServiceCollection services,
                                                             IConfiguration configuration)
         {
-            services.ConfigureIdentityServiceDbContexts(configuration);
-            services.ConfigureInfraServices(configuration);
+            services.ConfigureIdentityServiceDbContexts(configuration)
+                .ConfigureInfraServices(configuration)
+                .ConfigurePropertyServices(configuration);
             return services;
         }
 

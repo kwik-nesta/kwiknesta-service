@@ -7,15 +7,15 @@ namespace KwikNestaInfra.Infrastructure
     public class InfraRepositoryManager(InfraServiceDbContext context) : IInfraRepositoryManager
     {
         private readonly Lazy<IAuditLogRepository> _auditLogRepository =
-            new Lazy<IAuditLogRepository>(() => new AuditLogRepository(context));
+            new(() => new AuditLogRepository(context));
         private readonly Lazy<IKNCountryRepository> _kNCountryRepository = 
-            new Lazy<IKNCountryRepository>(() => new KNCountryRepository(context));
+            new(() => new KNCountryRepository(context));
         private readonly Lazy<IKNStateRepository> _kNStateRepository =
-           new Lazy<IKNStateRepository>(() => new KNStateRepository(context));
+           new(() => new KNStateRepository(context));
         private readonly Lazy<IKNCityRepository> _kNCityRepository =
-           new Lazy<IKNCityRepository>(() => new KNCityRepository(context));
+           new(() => new KNCityRepository(context));
         private readonly Lazy<IKNTimeZoneRepository> _kNTimeZoneRepository =
-           new Lazy<IKNTimeZoneRepository>(() => new KNTimeZoneRepository(context));
+           new(() => new KNTimeZoneRepository(context));
 
         private readonly InfraServiceDbContext _context = context;
 
